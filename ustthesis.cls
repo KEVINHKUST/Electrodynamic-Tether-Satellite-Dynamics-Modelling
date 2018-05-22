@@ -1696,7 +1696,7 @@ scholarly research.}
     \typeout{%
       Warning: \noexpand\depthead{Prof. Name} not yet defined.
     }
-    \member{Prof. ???, Head of Department}
+    
     \addlinedefinedtrue
   \fi
   \ifdatedefined \else
