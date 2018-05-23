@@ -75,36 +75,84 @@ This section talks about the details of physical model and the motion governing 
 
 The governing equations are Newton's second law and Euler's equation.
 
-Using the Newton's second law we can get that the sum of force vector components acting on any body in Inertia Frame,$F$, equals the mass of the satellite $m$ multiplied by the resulting acceleration vector components in Inertia Frame i.e. $ \mathbf{F} = m\mathbf{\ddot{r}}$
+Using the Newton's second law we can get that the sum of force vector components acting on any body in Inertia Frame,$\mathbf{F}$, equals the mass of the satellite $m$ multiplied by the resulting acceleration vector components in Inertia Frame $\ddot{r}$ i.e. $ \mathbf{F} = m\mathbf{\ddot{r}}$
 
 Similarly, using the Euler's equation we can get that the torque of the chaser's body or target's body as a result of the force exerted by the tether and/or the chaser's control actuator equals z axis Principal moment of inertia multiplied by Angular velocity of an end-mass/satellite relative to the inertial frame (which also equals to the angular velocity relative the body frame) i.e. $J_{zz} \dot{\omega} = \tau_z$ 
 
 \subsection{Physics model for the system}
 
 The whole system is modeled as a nonlinear stiffness spring-damper system. The damping coefficient of the damper is constant. The tether is made of 56\% polyester and 44\% rubber. The spring constant $k$ has strong nonlinearity. 
-\begin{wrapfigure}{r}{0.5\textwidth}
-	\begin{center}
-		\includegraphcis[width=0.45\textwidth]{fig/simulation/SystemModel}
-	\end{center}
-\caption{The system physics model}
-\end{wrapfigure}
 
 \begin{itemize}
 
 \item The spring constant changes as the extension of tether change 
 
-\item When tether is extended, the spring force F_spring=k×(length of stretched tether−tether natural lenth)
+\item When tether is extended, the spring force $F_{spring} = k\times $(length of stretched tether - tether natural length)
 
 \item $F_{spring} = 0$ when tether is slacked
 
 \end{itemize}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
-	\begin{center}
-		\includegraphcis{fig/simulation/StiffnessStetchRelation}
-	\end{center}
-\caption{The system physics model}
-\end{wrapfigure}
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm]{fig/simulation/Systemmodel}
+\caption{System model}
+\label{simu-systemmodel}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm]{fig/simulation/StiffnessStetchRelation}
+\caption{Stiffness stetch relation}
+\end{minipage}
+\end{figure}
+
+\subsection{Force and Torque analysis}
+
+1. For the Target vehicle, it only received the force of tether tension which denoted as $\mathbf{-\overrightarrow{F_S}}$. The torque $\tau_t$ is the torque made by tether tension about the center of mass of the target body.
+\begin{center}
+$\tau_t = a_{t,y}F_{s,x}^t - a_{t,x}F_{s,y}^t$
+\end{center} 
+\quad $F_{s}^t$ is the tether force expressed in $F_t$ i.e. $F_{s}^t = A(\theta_t)^TF_S$\\
+\quad $F_{s,x}^t,F_{s,y}^t$ are the x and y components of $F_{s}^t$ in $F_T$, respectively.   
+
+2. For the Chaser vehicle tether force $\mathbf{\overrightarrow{F_S}}$ and active control force $\mathbf{\overrightarrow{F_{control}}}$both exist. The torque also consists of two parts $\tau_{control}$ and  $\tau_{c}$. The $\tau_{control}$ and $\mathbf{\overrightarrow{F_{control}}}$ are the active control way that research can design in order to get the better deorbiting performance.
+\begin{center}
+$\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c$
+\end{center} 
+
+\quad $F_{s}^c$ is the tether force expressed in $F_c$ i.e. $F_{s}^c = A(\theta_c)^TF_S$\\
+\quad $F_{s,x}^c,F_{s,y}^c$ are the x and y components of $F_{s}^c$ in $F_c$, respectively.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{fig/simulation/flowchart}
+\caption{Flowchart of the calculation process}
+\label{simu-flowchart}
+\end{figure}
+
+\subsection{Tether length, tether tension and tether torque}
+
+According to Figure\ref{simu-illustration}, changing all the vectors in the Inertial frame then the tether length can be written as follows:
+
+$$ \overrightarrow{L_S} = -(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c})+(\overrightarrow{r_t} + A(\theta_t)\overrightarrow{a_t})$$
+ 
+It's vector form. The tether tension is: 
+
+$$ \overrightarrow{F_S} = \bigl(k(\norm{\overrightarrow{L_S}} - L_{s,nature}) + c(\Delta\overrightarrow{v} \cdot 
+	\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}})
+	\bigr)
+	\frac{\overrightarrow{L_S}}{
+	\norm{
+	\overrightarrow{L_S}
+	}
+	}
+$$
+As Figure \ref{simu-systemmodel} described before, the damping mechanism of tether results in the damping force: $c(\Delta\overrightarrow{v}\cdot \frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}) $. It results from damping factor multiply the velocity change in the tether's direction
+
+$\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}$ is the unit vector of tether.
 
 
+   
 \newpage
