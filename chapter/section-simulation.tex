@@ -1,7 +1,7 @@
-\chapter{Case study and MATLAB Simulation implementation}\label{section-case}
+\chapter{Case study and MATLAB simulation implementation}\label{section-case}
 In this chapter, an specific example\cite{hovell2017experimental} of tether satellite system is studied. In this case study, the used dynamic model and Proportional-Differentiation controller are the main analysis focuses. At the end, MATLAB simulation is also implemented.
 
-The tether satellite system consists of two satellite and a tether. The two satellites are named as Target vehicle and Chaser vehicle which means the task of Chaser vehicle is to capture the target vehicle and to de-rotation of the system. In the real case the target vehicle can be space debris which is moving and rotation around Earth under the gravational force of the Earth. Space debris not only rotates around the Earth, in fact it will also rotate around its body center if any .De-orbiting can be achieved if the energy and angular momentum of space debris consumed.
+The tether satellite system consists of two satellite and a tether. The two satellites are named as Target Vehicle and Chaser vehicle which means the task of Chaser vehicle is to capture the target vehicle and to de-rotation of the system. In the real case the target vehicle can be space debris which is moving and rotation around Earth under the gravational force of the Earth. Space debris not only rotates around the Earth, in fact it will also rotate around its body center if any .De-orbiting can be achieved if the energy and angular momentum of space debris consumed.
 \begin{figure}[ht]
 
 \includegraphics[width=\textwidth]{fig/simulation/ReferenceFrame}
@@ -11,29 +11,100 @@ The tether satellite system consists of two satellite and a tether. The two sate
 When we let our chaser vehicle connect with target vehicle using tether, the consumption of angular momentum becomes faster and the deorbiting gets quicker.  
 So we can say that chaser vehicle plays as a role of active debris remover.
 
-Using different kind of tether configuration, the effect of deorbiting target vehicle can be quite different.In Hovell's article, single tether confguration and sub-tether configuration are compared. The proposed sub-tether configuration can enhance the deorbiting mechanism, reducing the target tether angle and angular rate of target and finally dissipating angular momentum from the system much more quickly.  
+Using different kind of tether configuration, the effect of deorbiting target vehicle can be quite different.In Hovell's article, single tether confguration and sub-tether configuration are compared. The sub-tether configuration is like harpoon. The main tether links the Chaser vehicle with the junction point, which will be modeled as a point mass later.Two seperate tethers link the junction and Target vehicle. The proposed sub-tether configuration can enhance the deorbiting mechanism, reducing the target tether angle and angular rate of target and finally dissipating angular momentum from the system much more quickly.  
 \section{Physical Model Assumption}
 
 \begin{itemize}
 
-\item Massless tether, Constant end-body mass and visco-elastic tether
+\item Massless tether, Constant end-body mass and visco-elastic tether\\
 
-The tether is assumed as massless since it is much more lighter than end-body satellites.  
+The tether is assumed as massless since it is much more lighter than end-body satellites.  The single tether and sub-tether are modeled as nonlinear spring. The spring force are related to tether stretch and the relationship is set as visco-elastic.
 
-\item Three degree of freedom for Chaser vehicle and Target vehicle
+\item Three degree of freedom for Chaser vehicle and Target vehicle\\
 
-Planar Dynamics, 
-\item No external forces applied to the center of mass of the tethered satellite system
+Only three degree of freedom is considered in this case which means the satellite can only do translational motion along X axis and Y axis and rotational motion about the Z axis. This assumption makes the dynamics modeling of satellite much easier. The two satellites, target and chaser, are at the same level height which means there is no translational motion along Z axis i.e the z = 0. Similarly, the rotational motion about X axis and the rotational motion about Y axis are not con
+\item No external forces applied to the center of mass of the whole tethered satellite system\\
 
-\item The Inertia matrix is constant and the 
+In the tether satellite system, the force of tether and the chaser's control force are force source. No external force, such as gravational force and distrubance force applied to the center of mass of the whole system. 
+\item The Inertia matrix is constant
 
 \item Body frame of each of the end-masses is aligned with the principal axes of the end-masses
+\end{itemize}
 
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth,right]{fig/simulation/illustration.png}
+\caption{Definition of the Inertial frame, Chaser body frame and Target body coordinate systems}
+\label{simu-illustration}
+\end{figure}
+
+
+There are three coordinate systems defined in the article and all of them are defined as right-handed system. Between two different coordinate systems the attitude matrix $A(\theta)$ is the transformation matrix whcih used to rotate the vector components from a body frame to Inertial frame. 
+\[A(\theta) =
+	\begin{bmatrix}
+	\cos(\theta) & -\sin(\theta) \\
+	\sin(\theta) & \cos(\theta)
+	\end{bmatrix}
+\]
+
+	The point where tether attached the Chaser vehicle or Target vehicle is called attached point. This point is fixed in the body frame so that we can use tether attachment vector with respect to the body centor of mass to describe this attach point. The tether attachment vector is denoted as $a$.
+The attitude $\theta$  of a body frame ($F_C$ for the chaser or $F_T$ for of the target) is the angle of rotation between the body frame relative to the Inertial frame $F_I$ about the z-axis where the z-axis of all inertial and body frames are parallel. The transformation of vectors from body frame to Inertial frame is using the equation  $\mathbf{x_I}=A(\theta)\mathbf{x_b}$ which $I$ means Inertial frame and $b$ means body frame.
+\boldmath
+\begin{enumerate}
+
+\item Reference inertial frame $F_I$ Coordinates\\		
+\begin{center} $\textbf{I} =[I_x, I_y, I_z]$ \end{center}
+\textbf {$F_I$} is fixed. The position of origin point and direction of three axes will not change with time.    
+
+
+\item Reference inertial frame $F_T$ Coordinates\\		
+\begin{center} $\textbf{T} =[T_x, T_y, T_z]$ \end{center}
+\textbf{$F_T$} denotes the Target body-fixed frame. The origin point of \textbf{T} is at the center of mass of the Target vehicle. The x axis of $F_T$ is pointed to the chaser at the beginning. 
+
+\item Reference inertial frame $F_C$ Coordinates\\		
+\begin{center} $\textbf{C} =[C_x, C_y, C_z]$ \end{center}
+\textbf{$F_C$} denotes the Chaser body-fixed frame.The origin point of \textbf{C} is at the center of mass of the Target. The x axis of $F_C$ is pointed to the target at the beginning. 
+\end{enumerate}
+\unboldmath
+
+\section{Motion governing equation and Physics model for the system}
+
+This section talks about the details of physical model and the motion governing equation
+
+\subsection{Motion governing equation}
+
+The governing equations are Newton's second law and Euler's equation.
+
+Using the Newton's second law we can get that the sum of force vector components acting on any body in Inertia Frame,$F$, equals the mass of the satellite $m$ multiplied by the resulting acceleration vector components in Inertia Frame i.e. $ \mathbf{F} = m\mathbf{\ddot{r}}$
+
+Similarly, using the Euler's equation we can get that the torque of the chaser's body or target's body as a result of the force exerted by the tether and/or the chaser's control actuator equals z axis Principal moment of inertia multiplied by Angular velocity of an end-mass/satellite relative to the inertial frame (which also equals to the angular velocity relative the body frame) i.e. $J_{zz} \dot{\omega} = \tau_z$ 
+
+\subsection{Physics model for the system}
+
+The whole system is modeled as a nonlinear stiffness spring-damper system. The damping coefficient of the damper is constant. The tether is made of 56\% polyester and 44\% rubber. The spring constant $k$ has strong nonlinearity. 
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\begin{center}
+		\includegraphcis[width=0.45\textwidth]{fig/simulation/SystemModel}
+	\end{center}
+\caption{The system physics model}
+\end{wrapfigure}
+
+\begin{itemize}
+
+\item The spring constant changes as the extension of tether change 
+
+\item When tether is extended, the spring force F_spring=k×(length of stretched tether−tether natural lenth)
+
+\item $F_{spring} = 0$ when tether is slacked
 
 \end{itemize}
 
-\section{}
+\begin{wrapfigure}{r}{0.5\textwidth}
+	\begin{center}
+		\includegraphcis{fig/simulation/StiffnessStetchRelation}
+	\end{center}
+\caption{The system physics model}
+\end{wrapfigure}
 
-\section{}
 
-\section{}
+\newpage
