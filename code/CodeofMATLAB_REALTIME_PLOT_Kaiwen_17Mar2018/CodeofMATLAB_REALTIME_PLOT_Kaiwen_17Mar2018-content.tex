@@ -1,51 +1,27 @@
-\chapter{Appendix}\label{section-appendix} \section{MATLAB}
 
 
-\section{Arduino CSV Streaming Example}
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+
+\section*{Matlab Code}
+
+
 \begin{lstlisting}
-#include <ArdusatSDK.h>
-#include <Wire.h>
-#include <Arduino.h>
-
-
-/*-----------------------------------------------------------------------------
- *  Setup Software Serial to allow for both RF communication and USB communication
- *    RX is digital pin 8 (connect to TX/DOUT of RF Device)
- *    TX is digital pin 9 (connect to RX/DIN of RF Device)
- *-----------------------------------------------------------------------------*/
-ArdusatSerial serialConnection(SERIAL_MODE_HARDWARE_AND_SOFTWARE, 8, 9); 
-
-/*-----------------------------------------------------------------------------
- *  Constant Definitions
- *-----------------------------------------------------------------------------*/
- 
-Acceleration accel;
-Gyro gyro;
-Magnetic mag;
-Orientation orient(accel, mag);
-
-void setup(void) {
-  serialConnection.begin(57600);
-  
-  accel.begin();
-  gyro.begin();
-  mag.begin();
-  orient.begin();
-  serialConnection.println("Start of the loop");
-  serialConnection.println("The acceleration x y z unit in m/s^2");
-  serialConnection.println("The angular rate x y z unit in radian per second");
-  serialConnection.println("The orientation roll pitch heading unit in degree");
-}
-
-void loop(void) {
-  serialConnection.println(accel.readToCSV("Acceleration"));
-  serialConnection.println(gyro.readToCSV("Gyro"));
-  serialConnection.println(orient.readToCSV("Orientation"));
-}
-
-\end{lstlisting}
-\section{MATLAB Serial REALTIME PLOTING} 
-\begin{lstlisting} 
 %% Pre-process
 close all;  % close all figures
 clear all;  % clear all workspace variables
@@ -195,5 +171,4 @@ while(1)
     end 
 
 end 
-\end{lstlisting} 
-\newpage    
+\end{lstlisting}
