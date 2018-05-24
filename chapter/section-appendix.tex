@@ -1,0 +1,202 @@
+\chapter{Appendix}\label{section-appendix}
+\section{MATLAB}
+
+
+
+\section{Arduino CSV Streaming Example}
+\verb{
+#include <ArdusatSDK.h>
+#include <Wire.h>
+#include <Arduino.h>
+
+
+/*-----------------------------------------------------------------------------
+ *  Setup Software Serial to allow for both RF communication and USB communication
+ *    RX is digital pin 8 (connect to TX/DOUT of RF Device)
+ *    TX is digital pin 9 (connect to RX/DIN of RF Device)
+ *-----------------------------------------------------------------------------*/
+ArdusatSerial serialConnection(SERIAL_MODE_HARDWARE_AND_SOFTWARE, 8, 9); 
+
+/*-----------------------------------------------------------------------------
+ *  Constant Definitions
+ *-----------------------------------------------------------------------------*/
+ 
+Acceleration accel;
+Gyro gyro;
+Magnetic mag;
+Orientation orient(accel, mag);
+
+
+void setup(void) {
+  serialConnection.begin(57600);
+  
+  accel.begin();
+  gyro.begin();
+  mag.begin();
+  orient.begin();
+  serialConnection.println("Start of the loop");
+  serialConnection.println("The acceleration x y z unit in m/s^2");
+  serialConnection.println("The angular rate x y z unit in radian per second");
+  serialConnection.println("The orientation roll pitch heading unit in degree");
+}
+
+void loop(void) {
+  serialConnection.println(accel.readToCSV("Acceleration"));
+  serialConnection.println(gyro.readToCSV("Gyro"));
+  serialConnection.println(orient.readToCSV("Orientation"));
+}
+}
+
+\section{MATLAB Serial REALTIME PLOTING}
+%
+%%% Pre-process
+%close all;  % close all figures
+%clear all;  % clear all workspace variables
+%clc;        % clear the command line
+%fclose('all'); % close all open files
+%delete(instrfindall); % reset com port 
+%
+%%% Constatns
+%BAUDRATE = 57600; % Need to configure Xbee parts BD i.e. Interface Data Rate
+%INPUTBUFFER = 51200; %Unit in bytes. Definition:A location that holds all 
+%% incoming information before it continues to the CPU for processing; 
+%% Buffers used to store information before it processed
+%
+%
+%%% Initialize the stripchart
+%figure_acceleration = figure('Name','Acceleration');
+%axes_accelerationx = subplot(3,1,1); % Axes Object
+%xlabel(axes_accelerationx,'Time/ second')
+%ylabel(axes_accelerationx,'Accelerationx/ m/s^2')
+%
+%axes_accelerationy = subplot(3,1,2);
+%xlabel(axes_accelerationy,'Time/ second')
+%ylabel(axes_accelerationy,'Accelerationy/ m/s^2')
+%
+%axes_accelerationz = subplot(3,1,3);
+%xlabel(axes_accelerationz,'Time/ second')
+%ylabel(axes_accelerationz,'Accelerationz/ m/s^2')
+%
+%h_ax = animatedline(axes_accelerationx,'MaximumNumPoints',Inf,'Marker','o','Color','red'); % animated line object
+%h_ay = animatedline(axes_accelerationy,'MaximumNumPoints',Inf,'Marker','+','Color','blue');
+%h_az = animatedline(axes_accelerationz,'MaximumNumPoints',Inf,'Marker','*','Color','green');
+%
+%figure_gyro = figure('Name','Gyro');
+%axes_gyrox = subplot(3,1,1);
+%xlabel(axes_gyrox,'Time/ second')
+%ylabel(axes_gyrox,'Gyrox/ rad/s')
+%
+%axes_gyroy = subplot(3,1,2);
+%xlabel(axes_gyroy,'Time/ second')
+%ylabel(axes_gyroy,'Gyroy/ rad/s')
+%
+%axes_gyroz = subplot(3,1,3);
+%xlabel(axes_gyroz,'Time/ second')
+%ylabel(axes_gyroz,'Gyroz/ rad/s')
+%
+%h_gx = animatedline(axes_gyrox,'MaximumNumPoints',Inf,'Marker','o','Color','red');
+%h_gy = animatedline(axes_gyroy,'MaximumNumPoints',Inf,'Marker','+','Color','blue');
+%h_gz = animatedline(axes_gyroz,'MaximumNumPoints',Inf,'Marker','*','Color','green');
+%
+%figure_orientation = figure('Name','Orientation');
+%axes_roll = subplot(3,1,1);
+%xlabel(axes_roll,'Time/ second')
+%ylabel(axes_roll,'Roll/ deg')
+%
+%axes_pitch = subplot(3,1,2);
+%xlabel(axes_pitch,'Time/ second')
+%ylabel(axes_pitch,'Pitch/ deg')
+%
+%axes_heading = subplot(3,1,3);
+%xlabel(axes_heading,'Time/ second')
+%ylabel(axes_heading,'Heading/ deg')
+%
+%h_roll = animatedline(axes_roll,'MaximumNumPoints',Inf,'Marker','o','Color','red');
+%h_pitch = animatedline(axes_pitch,'MaximumNumPoints',Inf,'Marker','+','Color','blue');
+%h_heading =animatedline(axes_heading,'MaximumNumPoints',Inf,'Marker','*','Color','green');
+%
+%% Index 
+%i = 1;
+%j = 1;
+%k = 1;
+%
+%% Record the data
+%% 10000 Row data
+%record_acceleration = zeros(10000,4);
+%record_gyro = zeros(10000,4);
+%record_orientation = zeros(10000,4);
+%
+%%% Create a serial object
+%board = serial('COM4','BaudRate',BAUDRATE,'DataBits',8);
+%% Related with the used COM, can be different 
+%% COM4 for wireless, COM3 for wire
+%% BAUDRATE unit: bits per second, e.g. 9600 means 9600 bits per second,
+%% i.e. 1200 bytes per second i.e. 1.2 KB/s or 1.17KB/s
+%
+%
+%% Set serial port buffer
+%set(board,'InputBufferSize',INPUTBUFFER);
+%% InputBufferSize: total number of bytes that can be stored in the input
+%% buffer during a read operation. The read operation is terminated if the
+%% amount of data stored in the input buffer equals the InputBufferSize
+%
+%fopen(board);
+%while(1)
+%    a = fgetl(board);% a:character vector
+%    b = textscan(a,'%u32 %s %f %f %f %u32','Delimiter',',');
+%    
+%    if strcmp(char(b{2}),'Acceleration')
+%    
+%        time = double(b{1})/1000; % in second
+%        ax = b{3}; 
+%            addpoints(h_ax,time,ax);
+%            drawnow limitrate
+%             
+%        ay = b{4};
+%            addpoints(h_ay,time,ay);
+%            drawnow limitrate
+%            
+%        az = b{5};
+%            addpoints(h_az,time,az);
+%            drawnow limitrate
+%            
+%        record_acceleration(i,:)=[time ax ay az];
+%        i=i+1;
+%        
+%    elseif strcmp(char(b{2}),'Gyro')
+%        time = double(b{1})/1000; % in second
+%        gx = b{3}; 
+%            addpoints(h_gx,time,gx);
+%            drawnow limitrate
+%            
+%        gy = b{4};
+%            addpoints(h_gy,time,gy);
+%            drawnow limitrate
+%        gz = b{5};
+%            addpoints(h_gz,time,gz);
+%            drawnow limitrate
+%            
+%        record_gyro(j,:)=[time gx gy gz];
+%        j=j+1;
+%        
+%    elseif strcmp(char(b{2}),'Orientation')
+%        time = double(b{1})/1000; % in second
+%        roll = b{3};
+%            addpoints(h_roll,time,roll);
+%            drawnow limitrate
+%            
+%        pitch = b{4};
+%            addpoints(h_pitch,time,pitch);
+%            drawnow limitrate
+%            
+%        heading = b{5};
+%            addpoints(h_heading,time,heading);
+%            drawnow limitrate
+%            
+%        record_orientation(k,:) = [time roll pitch heading];
+%        k = k+1;
+%    end 
+%
+%end
+\newpage
+    

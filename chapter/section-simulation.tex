@@ -14,8 +14,8 @@ So we can say that chaser vehicle plays as a role of active debris remover.
 Using different kind of tether configuration, the effect of deorbiting target vehicle can be quite different.In Hovell's article, single tether confguration and sub-tether configuration are compared. The sub-tether configuration is like harpoon. The main tether links the Chaser vehicle with the junction point, which will be modeled as a point mass later.Two seperate tethers link the junction and Target vehicle. The proposed sub-tether configuration can enhance the deorbiting mechanism, reducing the target tether angle and angular rate of target and finally dissipating angular momentum from the system much more quickly.  
 \section{Physical Model Assumption}
 
-\begin{itemize}
-
+\begin{enumerate}
+\label{simu-assumption}
 \item Massless tether, Constant end-body mass and visco-elastic tether\\
 
 The tether is assumed as massless since it is much more lighter than end-body satellites.  The single tether and sub-tether are modeled as nonlinear spring. The spring force are related to tether stretch and the relationship is set as visco-elastic.
@@ -29,7 +29,7 @@ In the tether satellite system, the force of tether and the chaser's control for
 \item The Inertia matrix is constant
 
 \item Body frame of each of the end-masses is aligned with the principal axes of the end-masses
-\end{itemize}
+\end{enumerate}
 
 \begin{figure}[ht]
 \centering
@@ -75,7 +75,7 @@ This section talks about the details of physical model and the motion governing 
 
 The governing equations are Newton's second law and Euler's equation.
 
-Using the Newton's second law we can get that the sum of force vector components acting on any body in Inertia Frame,$\mathbf{F}$, equals the mass of the satellite $m$ multiplied by the resulting acceleration vector components in Inertia Frame $\ddot{r}$ i.e. $ \mathbf{F} = m\mathbf{\ddot{r}}$
+Using the Newton's second law we can get that the sum of force vector components acting on any body in Inertia Frame,$\mathbf{F}$, equals the mass of the satellite $m$ times the resulting acceleration vector components in Inertia Frame $\ddot{r}$ i.e. $ \mathbf{F} = m\mathbf{\ddot{r}}$
 
 Similarly, using the Euler's equation we can get that the torque of the chaser's body or target's body as a result of the force exerted by the tether and/or the chaser's control actuator equals z axis Principal moment of inertia multiplied by Angular velocity of an end-mass/satellite relative to the inertial frame (which also equals to the angular velocity relative the body frame) i.e. $J_{zz} \dot{\omega} = \tau_z$ 
 
@@ -134,12 +134,14 @@ $\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c$
 
 \subsection{Tether length, tether tension and tether torque}
 
-According to Figure\ref{simu-illustration}, changing all the vectors in the Inertial frame then the tether length can be written as follows:
+According to Figure\ref{simu-illustration}, changing all the vectors in the Inertial frame then the vector form of tether length can be written as follows:
 
 $$ \overrightarrow{L_S} = -(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c})+(\overrightarrow{r_t} + A(\theta_t)\overrightarrow{a_t})$$
  
-It's vector form. The tether tension is: 
 
+As Figure \ref{simu-systemmodel} described before, the damping mechanism of tether results in the damping force: $c(\Delta\overrightarrow{v}\cdot \frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}) $. It results from damping factor times the velocity change in the tether's direction
+
+The tether tension is: 
 $$ \overrightarrow{F_S} = \bigl(k(\norm{\overrightarrow{L_S}} - L_{s,nature}) + c(\Delta\overrightarrow{v} \cdot 
 	\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}})
 	\bigr)
@@ -149,10 +151,65 @@ $$ \overrightarrow{F_S} = \bigl(k(\norm{\overrightarrow{L_S}} - L_{s,nature}) + 
 	}
 	}
 $$
-As Figure \ref{simu-systemmodel} described before, the damping mechanism of tether results in the damping force: $c(\Delta\overrightarrow{v}\cdot \frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}) $. It results from damping factor multiply the velocity change in the tether's direction
+$\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}$ is the unit vector of the tether.$\Delta\overrightarrow{v}$ is the difference of the time derivative of two body's absolute postion. 
+$$\Delta\overrightarrow{v} = \frac{d}{dt}(\overrightarrow{r_t}+A(\theta_t)\overrightarrow{a_t}) - \frac{d}{dt}(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c}) = \overrightarrow{v_t} + \frac{d}{dt}(A(\theta_t))\overrightarrow{a_t}-\overrightarrow{v_c}-\frac{d}{dt}(A(\theta_c))\overrightarrow{a_c}$$
+Since the derivate is used for the angle, we can rewrite the $\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t}$ in terms of angular rate and tether attachment vector.
+$$\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = \frac{d}{dt}
+\left(
+\begin{bmatrix}
+\cos(\theta_t) & -\sin(\theta_t)\\
+\sin(\theta_t) & \cos(\theta_t)
+\end{bmatrix} \right)
+\overrightarrow{a_t} =
+\begin{bmatrix}
+\cos(\theta_t) & -\sin(\theta_t)\\
+\sin(\theta_t) & \cos(\theta_t)
+\end{bmatrix}
+\left(
+\begin{array}{c}
+-\omega_ta_{t,y}\\
+\omega_ta_{t,x}
+\end{array}\right)
+$$
+which means that 
 
-$\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}$ is the unit vector of tether.
+$\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = A(\theta_t)\left(
+\begin{array}{c}
+-\omega_ta_{t,y}\\
+\omega_ta_{t,x}
+\end{array}\right) $ $\frac{d}{dt}(A(\theta_c))\overrightarrow{a_c} = A(\theta_c)\left(
+\begin{array}{c}
+-\omega_ca_{c,y}\\
+\omega_ca_{c,x}
+\end{array}\right)$
+
+Tether torque can be written as the time derivative of system angular momentum. It equals the time derivative of system angular momentum with regard to the relative moving coordinate system plus the moving frame's absolute angular velocity times the angular momentum. In this case the moving frame just has translational motion in Inertia frame. The moving frame's absolute angular velocity doesn't exist in this case. 
+$$ M = \frac{dH}{dt} = \dot{H_{relative}} + \Omega \times H\\
+		=\dot{H_{relative}} =\frac{J_{zz}\omega}{dt}= J_{zz}\dot{\omega}
+$$
+The torque in Inertial frame equals the torque in body frame.
+For the rigid body i In the inertial frame, the euler's equation gives us the relationship between the exerted torque $\tau$ and resulted angular acceleration $\dot{\omega}$ .i.e. $J_i\dot{\omega} + \omega_i \times J_i\omega_i=\sum\tau$
+
+According to the assumption \ref{simu-assumption} we can simplified the Euler's equation as: $J_{izz}\dot{w_{iz}}=\tau_{iz}$	i can be c for chaser or t for target.
+$\tau=a_i\times F^i_S$	$\tau_t = a_{t,y}F_{s,x}^t - a_{t,x}F_{s,y}^t$	$\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c$
+
+\section{Control goal of Chaser vehicle}
+To archieve the goal of deorbiting target satellite, the Chaser vehicle need to regulate and reduce the angle between tether and target so as to make the tether aligned with the target or force Chaser and target has the parellel surface. To reduce the angular rate of target vehicle, dissipate angular momentume from the system and at last make the target go to lower altitude orbit.
+\begin{figure}
+\centering
+\includegraphics{fig/simulation/TetherTargetAngle}
+\caption{Positive tether target angle}
+\end{figure}
+The easiest way is to use the proportional-derivative controller for the position and altitude contro of the tether.
+The force controller uses the difference between desired chaser radius vector and actual chaser radius vector as the feedback signal. The force $\overrightarrow{F_{s,control}}$ equals $\mathbf{K_P}\left[\overrightarrow{r_{des}(t)}-\overrightarrow{r_c(t)}\right]+\mathbf{K_D}\left[\overrightarrow{\dot{r_{des}(t)}}-\overrightarrow{\dot{r_c(t)}}\right]$
+Similarly the torque controller uses the desired chaser attitude angle and actual chaser attitude angle as the control feedback signal.
+
+$$\tau_{control} =K_{P,\theta}\left[\theta_{des}(t)-\theta_c(t)\right] + K_{D,\theta}\left[\dot{\theta_{des}(t)}-\dot{\theta_c(t)}\right]$$
+
+$K_P,K_{P,\theta},, K_D,K_{D,\theta}$ are the Proportional gain matrix and the Derivative gain matrix respectively. These matrix value are designed and tuned by designer for the special case.
+
+\section{MATLAB Implementation}
+In this section, two MATLAB simulation case are implemented. To simplified the study, each case use only one controller. The thrust stabilization only use force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. 
 
 
-   
 \newpage
