@@ -63,7 +63,7 @@ For example, one of the result is like this(during around 100ms):
 
 The timestamp is the time value from which the program was runned, in millisecond. The last number is checksum which used for check the communication.
 The Baudrate is set as 5700 as softwareSerial does not appear to work reliably above 57600 baud.\cite{https://github.com/ArduSat/ArdusatSDK}
-When using Baudrate as 57600, the update frequency of physical quantities are 32Hz, which menas every second we can get 32 groups of acceleration, angular rate and orientation.
+When using Baudrate as 57600, the update frequency of physical quantities are 32Hz, which menas every second we can get 32 groups of acceleration, angular rate and orientation. The unit of baudrate is bits per second.i.e. 57600 bits per second equals 7.2KB/s.
 
 \subsection{Xbee modules configuration}
 \begin{figure}[!h]
@@ -106,7 +106,7 @@ There are two way to configure destination address
 
 \item Set Destination Address High to the Serial Number High (SH) and Destination Address Low to the Serial Number Low (SL) of your destination XBee.
 \end{enumerate}
-To assure that each network has high fidelity and the communication interference between A network and B network is as low as possible, the A network is only using method 1 and the B network is using method 2. A network's configuration obeys method 1 and disobey method 2. B network's configuration obeys method 2 and goes against method 1.
+To assure that each network has high fidelity and the communication interference between A network and B network is as low as possible, the A network is only using method 1 and the B network is using method 2. A network's configuration obeys method 1 and disobeys method 2. B network's configuration obeys method 2 and goes against method 1.
 
 The key is to reduce communication interference when two satellites are moving especially when they are quite close.
 
@@ -115,5 +115,13 @@ The key is to reduce communication interference when two satellites are moving e
 \includegraphics[width=0.5\textwidth]{fig/DOE/Network}
 \caption{Xbee-networks}
 \end{figure}
+
+\subsection{Real-time data streaming to MATLAB via USB}
+Since the Xbee modules can send data wirelessly to the shield module, the Arduino Serial Monitor is able to receive and pop out the streaming txt data. However, Arduino cannot plot the received data at real time and save the data synchronously.
+
+To plot the real-time streaming data and record them we need to use MATLAB. MATLAB serial can create serial port object. The Xbee shield is connected to computer via USB serial port.
+
+The MATLAB code\ref{appendix-realtime} gives the function. This MATLAB file reads the serial post, plots the three physical quantities and saves the data into record matrix.       
+
 
 \newpage
