@@ -40,12 +40,13 @@ In the tether satellite system, the force of tether and the chaser's control for
 
 
 There are three coordinate systems defined in the article and all of them are defined as right-handed system. Between two different coordinate systems the attitude matrix $A(\theta)$ is the transformation matrix whcih used to rotate the vector components from a body frame to Inertial frame. 
-\[A(\theta) =
+\begin{equation}
+A(\theta) =
 	\begin{bmatrix}
 	\cos(\theta) & -\sin(\theta) \\
 	\sin(\theta) & \cos(\theta)
 	\end{bmatrix}
-\]
+\end{equation}
 
 	The point where tether attached the Chaser vehicle or Target vehicle is called attached point. This point is fixed in the body frame so that we can use tether attachment vector with respect to the body centor of mass to describe this attach point. The tether attachment vector is denoted as $a$.
 The attitude $\theta$  of a body frame ($F_C$ for the chaser or $F_T$ for of the target) is the angle of rotation between the body frame relative to the Inertial frame $F_I$ about the z-axis where the z-axis of all inertial and body frames are parallel. The transformation of vectors from body frame to Inertial frame is using the equation  $\mathbf{x_I}=A(\theta)\mathbf{x_b}$ which $I$ means Inertial frame and $b$ means body frame.
@@ -111,16 +112,16 @@ The whole system is modeled as a nonlinear stiffness spring-damper system. The d
 \subsection{Force and Torque analysis}
 
 1. For the Target vehicle, it only received the force of tether tension which denoted as $\mathbf{-\overrightarrow{F_S}}$. The torque $\tau_t$ is the torque made by tether tension about the center of mass of the target body.
-\begin{center}
-$\tau_t = a_{t,y}F_{s,x}^t - a_{t,x}F_{s,y}^t$
-\end{center} 
+\begin{equation}
+\tau_t = a_{t,y}F_{s,x}^t - a_{t,x}F_{s,y}^t
+\end{equation}
 \quad $F_{s}^t$ is the tether force expressed in $F_t$ i.e. $F_{s}^t = A(\theta_t)^TF_S$\\
-\quad $F_{s,x}^t,F_{s,y}^t$ are the x and y components of $F_{s}^t$ in $F_T$, respectively.   
+\quad\quad $F_{s,x}^t,F_{s,y}^t$ are the x and y components of $F_{s}^t$ in $F_T$, respectively.   
 
 2. For the Chaser vehicle tether force $\mathbf{\overrightarrow{F_S}}$ and active control force $\mathbf{\overrightarrow{F_{control}}}$both exist. The torque also consists of two parts $\tau_{control}$ and  $\tau_{c}$. The $\tau_{control}$ and $\mathbf{\overrightarrow{F_{control}}}$ are the active control way that research can design in order to get the better deorbiting performance.
-\begin{center}
-$\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c$
-\end{center} 
+\begin{equation}
+\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c
+\end{equation}
 
 \quad $F_{s}^c$ is the tether force expressed in $F_c$ i.e. $F_{s}^c = A(\theta_c)^TF_S$\\
 \quad $F_{s,x}^c,F_{s,y}^c$ are the x and y components of $F_{s}^c$ in $F_c$, respectively.
@@ -136,13 +137,13 @@ $\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c$
 
 According to Figure\ref{simu-illustration}, changing all the vectors in the Inertial frame then the vector form of tether length can be written as follows:
 
-$$ \overrightarrow{L_S} = -(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c})+(\overrightarrow{r_t} + A(\theta_t)\overrightarrow{a_t})$$
+\begin{equation} \overrightarrow{L_S} = -(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c})+(\overrightarrow{r_t} + A(\theta_t)\overrightarrow{a_t})\end{equation}
  
 
 As Figure \ref{simu-systemmodel} described before, the damping mechanism of tether results in the damping force: $c(\Delta\overrightarrow{v}\cdot \frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}) $. It results from damping factor times the velocity change in the tether's direction
 
 The tether tension is: 
-$$ \overrightarrow{F_S} = \bigl(k(\norm{\overrightarrow{L_S}} - L_{s,nature}) + c(\Delta\overrightarrow{v} \cdot 
+\begin{equation} \overrightarrow{F_S} = \bigl(k(\norm{\overrightarrow{L_S}} - L_{s,nature}) + c(\Delta\overrightarrow{v} \cdot 
 	\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}})
 	\bigr)
 	\frac{\overrightarrow{L_S}}{
@@ -150,11 +151,11 @@ $$ \overrightarrow{F_S} = \bigl(k(\norm{\overrightarrow{L_S}} - L_{s,nature}) + 
 	\overrightarrow{L_S}
 	}
 	}
-$$
+\end{equation}
 $\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}$ is the unit vector of the tether.$\Delta\overrightarrow{v}$ is the difference of the time derivative of two body's absolute postion. 
-$$\Delta\overrightarrow{v} = \frac{d}{dt}(\overrightarrow{r_t}+A(\theta_t)\overrightarrow{a_t}) - \frac{d}{dt}(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c}) = \overrightarrow{v_t} + \frac{d}{dt}(A(\theta_t))\overrightarrow{a_t}-\overrightarrow{v_c}-\frac{d}{dt}(A(\theta_c))\overrightarrow{a_c}$$
+\begin{equation}\Delta\overrightarrow{v} = \frac{d}{dt}(\overrightarrow{r_t}+A(\theta_t)\overrightarrow{a_t}) - \frac{d}{dt}(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c}) = \overrightarrow{v_t} + \frac{d}{dt}(A(\theta_t))\overrightarrow{a_t}-\overrightarrow{v_c}-\frac{d}{dt}(A(\theta_c))\overrightarrow{a_c}\end{equation}
 Since the derivate is used for the angle, we can rewrite the $\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t}$ in terms of angular rate and tether attachment vector.
-$$\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = \frac{d}{dt}
+\begin{equation}\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = \frac{d}{dt}
 \left(
 \begin{bmatrix}
 \cos(\theta_t) & -\sin(\theta_t)\\
@@ -170,23 +171,23 @@ $$\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = \frac{d}{dt}
 -\omega_ta_{t,y}\\
 \omega_ta_{t,x}
 \end{array}\right)
-$$
+\end{equation}
 which means that 
 
-$\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = A(\theta_t)\left(
+$$\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = A(\theta_t)\left(
 \begin{array}{c}
 -\omega_ta_{t,y}\\
 \omega_ta_{t,x}
-\end{array}\right) $ $\frac{d}{dt}(A(\theta_c))\overrightarrow{a_c} = A(\theta_c)\left(
+\end{array}\right) \frac{d}{dt}(A(\theta_c))\overrightarrow{a_c} = A(\theta_c)\left(
 \begin{array}{c}
 -\omega_ca_{c,y}\\
 \omega_ca_{c,x}
-\end{array}\right)$
+\end{array}\right)$$
 
 Tether torque can be written as the time derivative of system angular momentum. It equals the time derivative of system angular momentum with regard to the relative moving coordinate system plus the moving frame's absolute angular velocity times the angular momentum. In this case the moving frame just has translational motion in Inertia frame. The moving frame's absolute angular velocity doesn't exist in this case. 
-$$ M = \frac{dH}{dt} = \dot{H_{relative}} + \Omega \times H\\
+\begin{equation} M = \frac{dH}{dt} = \dot{H_{relative}} + \Omega \times H\\
 		=\dot{H_{relative}} =\frac{J_{zz}\omega}{dt}= J_{zz}\dot{\omega}
-$$
+\end{equation}
 The torque in Inertial frame equals the torque in body frame.
 For the rigid body i In the inertial frame, the euler's equation gives us the relationship between the exerted torque $\tau$ and resulted angular acceleration $\dot{\omega}$ .i.e. $J_i\dot{\omega} + \omega_i \times J_i\omega_i=\sum\tau$
 
