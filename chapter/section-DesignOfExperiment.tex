@@ -121,7 +121,40 @@ Since the Xbee modules can send data wirelessly to the shield module, the Arduin
 
 To plot the real-time streaming data and record them we need to use MATLAB. MATLAB serial can create serial port object. The Xbee shield is connected to computer via USB serial port.
 
-The MATLAB code\ref{appendix-realtime} gives the function. This MATLAB file reads the serial post, plots the three physical quantities and saves the data into record matrix.       
+The MATLAB code \ref{appendix-realtime} gives the function. This MATLAB file reads the serial post, plots the three physical quantities and saves the data into record matrix.       
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{fig/DOE/acceleration}
+\includegraphics[width=\textwidth]{fig/DOE/gyro}
+\includegraphics[width=\textwidth]{fig/DOE/orientation}
+\caption{MATLAB plot real-time streaming figure}
+\end{figure}
+
+\section{Testbed fabrication}
+Utilizing Porous Media Technology Air Bushings deliver low coefficients of friction and high motion-control resolution for less-expensive road. The ideal components for building frictionless linear motion, Air Bearings were the original standard, off-the-shelf, porous media air bearing product line. 
+
+The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong indigenous nanosat engineering test facilities), designed by Dr. Pok Wang KWAN is showing below. The experimental has been carefully engineered to reduce the cost while it intended to provide good performance.
+
+\begin{figure}[!b]
+\centering
+\includegraphics[width=\textwidth]{fig/DOE/AirBushingPlanarPlatform}
+\caption{Air Bushing Planar Torque Free Motion simulator}
+\end{figure}
+
+However, the Air Bushing Torque Free MOtion simulator has a fatal problem. As the weight of top floor air bushings and top floor rods are beared by the bottom floor air bushings and rods, the mass of inertia along two axes are different. If two forces with same magnitude exerted on the same point of action along two verticle axes, the top floor air bushings will generate much bigger acceleration than the bottom floor air bushings since the motion along that way is much more eaiser.
+
+In Solidworks, using Motion study modules, the simulation result of Motion Analysis also support this argument. As we can see the blue line represent the acceleration(2) of bottom floor, around 81 $mm/sec^2$ which is much much smaller than the aceeleration of top floor. The top floor air bushing has the acceleration more than 1300 $mm/sec^2$. The oscillation of accleration means the air bushing of top floor hits the border and got reversal small acceleration. The exerted force have the same magnitutde and vertical direction. One is along the long thick rod and the other is along the shord thin rod.   
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.5\linewidth]{fig/DOE/MotionAnalysis}
+\caption{Solidworks Motion Anlysis} 
+\end{figure} 
+
+In theory the problem can be solved by using compensation mechanism.
+
+
+
 
 
 \newpage
