@@ -1,5 +1,334 @@
-\chapter{Appendix}\label{section-appendix} \section{MATLAB}
+\chapter{Appendix}\label{section-appendix} 
+\section{MATLAB}
+\begin{lstlisting}
+% This code is an implementation of Thrust Stabilization
+% for single tether
+% Hovell, K, and Ulrich, S. (2017)
+% "Experimental Validation for Tethered Capture of the Spinning Space Debris"
+% AIAA SciTech Forum, AIAA Guidance, Navigation, and Control Conference, Grapevine, Texas. 9 ?13 January
+% Paper no AIAA 2017-1049.
 
+% ======
+% Nomenclature:
+% Jzzt = Moment of inertia, target about z-axis 
+% Jzzc = Moment of inertia, chaser about z-axis
+
+% mt = Mass of the target
+% mc = Mass of the chaser
+% mj = Mass of the junction
+
+% thetac0 = Initial angle of the chaser 
+% thetat0 = Initial angle of the target
+
+% TS = Time step
+
+% Lm0= unstretched length of the main tether
+% Ls10 = unstretched length of the sub tether 1
+% Ls20 = unstretched length of the sub tether 2
+% Ls0 = unstretched length of the single tether
+
+% ac = tether attachment point to body chaser with respect to chaser's
+% center of mass
+% as1 = tether attachment point to body sub tether 1 with respect to
+% sub-tether1's center of mass
+% as2 = tether attachment point to body sub tether 2 with respect to
+% sub-tether2's center of mass
+% at = tether attachment point to body target with respect to
+% target's center of mass
+
+% csingle = damping coefficient for single tether
+% csub = damping coefficient for sub tether
+
+% KPtheta = proportional gain matrix for the theta 
+% KDtheta = derivative gain matrix for the theta
+% KP = proportional gain matrix for the position
+% KD = derivative gain matrix for the postion
+
+% ======
+% Define initial conditions and TSS parameters for all simulations and
+% experiment：
+
+%in Kg·m^2
+Jzzt=0.22; 
+Jzzc=0.30; 
+
+%in Kilogram
+mt=12.19; 
+mc=17.24; 
+mj=0.01;
+
+%in Degree
+thetac0=180; 
+thetat0=0;
+
+% in Second
+TS=0.004; 
+
+%in Meter
+Lm0=0.28; 
+Ls10=0.28; 
+Ls20=0.28;  
+Ls0=0.54; 
+ac=[0.135;-0.009];
+as1=[0.110;0.127];
+as2=[0.113;-0.094];
+at=[0.110;0.016];
+
+% in Newton·second/meter
+csingle=3.0; 
+csub=0.9;
+
+KPtheta=0.33;
+KDtheta=0.56;
+KP=[19.1 0;0 19.1];
+KD=[32.7 0;0 32.7];
+
+% ======
+% Define initial conditions for Thurst Stabilization simulations and experiment
+rt0=[0.35;1.19];
+rc0=[1.10;1.20];
+vt0=[0;0];
+vc0=[0;0];
+wt0=10; %degree/second
+rf=[3.10;1.20];
+
+% ======
+% Initialization
+% Simulation at time t=2s
+% Nothing change in the first two seconds
+rt=rt0;
+rc=rc0;
+vt=vt0;
+vc=vc0;
+thetat=thetat0;
+thetac=thetac0;
+Ls=rt+A(thetat)*at-rc-A(thetac)*ac;
+
+% fai is the target tether angle
+fai=norm(atand(Ls(2)/Ls(1))-thetat);
+
+
+
+wt=wt0;
+wc=0;
+t=0; % It started to simulate at T=2, which seem it as t=0;
+Fs=[0;0];
+
+% AngularMomentum 
+% In radius
+
+AngularMomentum = Jzzt * wt/57.3 + Jzzc * wc/57.3 ; 
+
+accelerationc=[0;0];
+accelerationt=[0;0];
+angularaccelerationt=0;
+taot=0;
+Fcontrol=[0;0];
+
+
+
+for i=1:25000 % i* TS = the time , i is the number of the current time step
+%record the data
+recordt(i)=t;
+recordrc(i,1)=rc(1);
+recordrc(i,2)=rc(2);
+recordrt(i,1)=rt(1);
+recordrt(i,2)=rt(2);
+recordthetat(i)=thetat;
+
+recordwt(i)=wt;
+recordFs(i,1)=Fs(1);
+recordFs(i,2)=Fs(2);
+
+recordLs(i,1)=Ls(1);
+recordLs(i,2)=Ls(2);
+
+
+recordvc(i,1)=vc(1);
+recordvc(i,2)=vc(2);
+
+recordvt(i,1)=vt(1);
+recordvt(i,2)=vt(2);
+
+recordaccelerationc(i,1)=accelerationc(1);
+recordaccelerationc(i,2)=accelerationc(2);
+recordaccelerationt(i,1)=accelerationt(1);
+recordaccelerationt(i,2)=accelerationt(2);
+
+recordangularaccelerationt(i)=angularaccelerationt;
+
+recordtaot(i)=taot;
+
+recordFcontrol(i,1)=Fcontrol(1);
+recordFcontrol(i,2)=Fcontrol(2);
+recordfai(i)=fai;
+
+recordAngularMomentum(i) = AngularMomentum ; 
+
+%recordstiffness(i) = stiffness(norm(Ls)-Ls0);
+
+%Ls is the vector which is from chaser to target, pointing at the target
+Ls=rt+A(thetat)*at-rc-A(thetac)*ac;
+
+% fai is target tether angle
+fai=norm(-atand(Ls(2)/Ls(1))+thetat);
+
+
+% Calculate the state of the tether 
+% Hovell and Ulrich (2017) eqn 19
+if (norm(Ls)-Ls0)>0 % tether is tensioned
+    Fs=(stiffness(norm(Ls)-Ls0)*(norm(Ls)-Ls0)+...
+        dot(csingle*(vt+A(thetat)*[-wt/57.3*at(2);wt/57.3*at(1)]-vc-A(thetac)*[-wc/57.3*ac(2);wc/57.3*ac(1)]),...
+        Ls/norm(Ls))).*Ls/norm(Ls);
+else % tether is slackness
+    Fs=[0;0];
+end
+
+% Force on target due to tether tension:
+% through center of mass
+% referenced to the target's body frame
+Fst=(A(thetat))'*Fs;
+Fsc=(A(thetac))'*Fs;
+
+
+% Torque on target due to tether tension:
+% about the z-axis of body frame (which is parallel to the z-axis of inertial frame)
+% through center of mass target
+% referenced to target body frame (the torque referenced to the body is the same as to the inertial frame)
+taot=at(2)*Fst(1)-at(1)*Fst(2); % Nm
+taoc=ac(1)*Fsc(2)-ac(2)*Fsc(1); % Nm
+
+% The control thrust of chaser vehicle
+Fcontrol=KP*(rdes(t)-rc)+KD*(vdes(t)-vc);
+
+% The control torque of chaser vehicle
+taocontrol=KPtheta* (180 - thetac) + KDtheta*(0-wc)  ;
+accelerationt=(-Fs/mt);
+accelerationc=(Fs+Fcontrol)/mc;
+angularaccelerationt=taot/Jzzt;
+angularaccelerationc=(taoc+taocontrol)/Jzzc;
+
+% position and angle update
+rt=rt+vt*TS;
+rc=rc+vc*TS;
+thetat=thetat+wt*TS;
+thetac=thetac+wc*TS;
+
+vt=vt+accelerationt*TS;
+wt=wt+angularaccelerationt*TS*(180/pi);%/degree t-1
+vc=vc+accelerationc*TS;
+wc=wc+angularaccelerationc*TS*(180/pi); %/degree t-1
+AngularMomentum = Jzzt * wt/57.3 + Jzzc * wc/57.3;
+t=t+TS;
+end
+recordt=recordt';
+recordthetat=recordthetat';
+recordwt=recordwt';
+
+
+recordrc=recordrc';
+recordrt=recordrt';
+recordvc=recordvc';
+recordvt=recordvt';
+recordaccelerationc=recordaccelerationc';
+recordaccelerationt=recordaccelerationt';
+recordangularaccelerationt=recordangularaccelerationt';
+recordangularaccelerationt=recordangularaccelerationt';
+recordaccelerationc=recordaccelerationc';
+recordaccelerationt=recordaccelerationt';
+recordtaot=recordtaot';
+recordFcontrol=recordFcontrol';
+
+n=1;
+figure(n)
+plot(recordt,recordwt);
+title('Target angular rate')
+xlabel('Time,s')
+ylabel('Angular rate, deg/s')
+n=n+1;
+
+figure(n)
+plot(recordt,recordthetat)
+title('angle of target')
+n=n+1;
+
+figure(n)
+plot(recordt,recordrc(1,:))
+title(' x position of the chaser')
+n=n+1;
+
+figure(n)
+plot(recordt,recordrc(2,:))
+title('y position of the chaser')
+n=n+1;
+
+figure(n)
+plot(recordt,recordrt(1,:))
+title('x position of the target')
+n=n+1;
+
+figure(n)
+plot(recordt,recordrt(2,:))
+title('y position of the target')
+n=n+1;
+
+figure(n)
+plot(recordt,mod(recordfai,360))
+title('Target tether angle')
+xlabel('Time,s')
+ylabel('Thether Angle,deg')
+n=n+1;
+
+figure(n)
+plot(recordt,recordAngularMomentum)
+title('Total Angular Momentum')
+xlabel('Time,s')
+ylabel('Angular Momentum')
+
+n = n + 1;
+figure(n)
+plot(recordrc(1,:),recordrc(2,:))
+title('Track of Chaser')
+
+n = n+1;
+figure(n)
+plot(recordrt(1,:),recordrt(2,:))
+title('Track of Target')
+
+% The function gives the attitude matrix in terms of theta
+% cos -sin; sin cos;
+
+function attitude=A(sita)
+attitude=[cosd(sita) -sind(sita);sind(sita) cosd(sita)];
+end
+
+% calculate the design radius vector of time t
+% the goal is to reach the destination in 20s after t=2
+function [rdes]=rdes(t)
+rc0=[1.10;1.20];
+rf=[3.10;1.20];
+d=2.*(rf-rc0)./(20*20); %in 20s
+[rdes]=(rc0+d.*(t*t/2));
+end
+
+% calculate the single tether stiffness(N/m) in terms of
+% stretch(m)-independent variable 
+% x=(||Ls||-Ls,0)
+function stiff=stiffness(x)
+originalstiffness=[163.500000000000,114.450000000000,80.2636363636363,51.3857142857143,29.9096000000000,18.8842500000000,17.0724030612245,10.1577253521127,8.06715957446808,7.09840970654628,6.99056826923077,7.22393661971831,8.06497910662824,8.78250400534045,9.58060266159696];
+originalstretch=[0.00300000000000000,0.00600000000000001,0.0110000000000000,0.0210000000000000,0.0450000000000000,0.0860000000000001,0.0980000000000001,0.213000000000000,0.329000000000000,0.443000000000000,0.520000000000000,0.639000000000000,0.694000000000000,0.749000000000000,0.789000000000000];
+stiff=spline(originalstretch,originalstiffness,x);
+end
+
+% calculate the design velocity of time t
+% the goal is to reach the destination in 20s after t=2s
+function vdes=vdes(t)
+rc0=[1.10;1.20];
+rf=[3.10;1.20];
+d=2.*(rf-rc0)./(20*20); %in 20s
+vdes=d*t;
+end
+\end{lstlisting}
 
 \section{Arduino CSV Streaming Example}
 \begin{lstlisting}

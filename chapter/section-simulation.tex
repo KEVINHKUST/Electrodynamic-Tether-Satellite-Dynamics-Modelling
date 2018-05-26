@@ -209,7 +209,83 @@ $$\tau_{control} =K_{P,\theta}\left[\theta_{des}(t)-\theta_c(t)\right] + K_{D,\t
 $K_P,K_{P,\theta},, K_D,K_{D,\theta}$ are the Proportional gain matrix and the Derivative gain matrix respectively. These matrix value are designed and tuned by designer for the special case.
 
 \section{MATLAB Implementation}
-In this section, two MATLAB simulation case are implemented. To simplified the study, each case use only one controller. The thrust stabilization only use force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. 
+In this section, the MATLAB simulation case is implemented. To simplified the study, the implementation case use only one controller. The thrust stabilization only use force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. In the real case the controller can be the combination of these two kinds. Here we just implemented the Thrust stabilization of single tether for illustration the problem.
+
+The detail MATLAB code is in the Appendix. Symbols have the same meaning and constant values are not changed, as\cite{hovell2017experimental}. 
+
+\section{Thrust stabilization}
+
+The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replayced by any other arbitarily defined motion. $$\overrightarrow{r_{des}(t)}=\overrightarrow{r_0}+\overrightarrow{d}\frac{t^2}{2}$$ d is the acceleration got from the desired final radius vector, the initial radius vector and assigned time for motion, $\overrightarrow{d} = \frac{2(\overrightarrow{r_{final}}-\overrightarrow{r_0})}{t^2}$.
+$\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$ 
+
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Targettetherangle.jpg}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Targettetheranglesample.jpg}
+\end{minipage}
+\caption{Comparison of Target tether angle. Left: Kaiwen	Right: Hovell}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Targetangularrate.jpg}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Targetangularratesample.jpg}
+\end{minipage}
+\caption{Comparison of Target angular rate.		Left: Kaiwen	Right: Hovell}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Totalangularmomentum.jpg}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Totalangularmomentumsample.jpg}
+\end{minipage}
+\caption{Comparison of Total angular momentum.		Left: Kaiwen	Right: Hovell}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Totalangularmomentum.jpg}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Totalangularmomentumsample.jpg}
+\end{minipage}
+\caption{Comparison of Total angular momentum.		Left: Kaiwen	Right: Hovell}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/TrackofChaser.jpg}
+\caption{Track of Chaser}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm,height=6cm]{fig/simulation/ThrustStable/Trackoftarget.jpg}
+\caption{Track of Target}
+\end{minipage}
+\end{figure}
+
+From the figure comparison, we know that the effect of implementation is quite well.
 
 
 \newpage
