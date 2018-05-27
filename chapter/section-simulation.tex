@@ -189,8 +189,10 @@ Tether torque can be written as the time derivative of system angular momentum. 
 		=\dot{H_{relative}} =\frac{J_{zz}\omega}{dt}= J_{zz}\dot{\omega}
 \end{equation}
 The torque in Inertial frame equals the torque in body frame.
-For the rigid body i In the inertial frame, the euler's equation gives us the relationship between the exerted torque $\tau$ and resulted angular acceleration $\dot{\omega}$ .i.e. $J_i\dot{\omega} + \omega_i \times J_i\omega_i=\sum\tau$
-
+For the rigid body i In the inertial frame, the euler's equation gives us the relationship between the exerted torque $\tau$ and resulted angular acceleration $\dot{\omega}$ .i.e. 
+\begin{equation}
+J_i\dot{\omega} + \omega_i \times J_i\omega_i=\sum\tau
+\end{equation}
 According to the assumption \ref{simu-assumption} we can simplified the Euler's equation as: $J_{izz}\dot{w_{iz}}=\tau_{iz}$	i can be c for chaser or t for target.
 $\tau=a_i\times F^i_S$	$\tau_t = a_{t,y}F_{s,x}^t - a_{t,x}F_{s,y}^t$	$\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c$
 
@@ -204,22 +206,22 @@ To archieve the goal of deorbiting target satellite, the Chaser vehicle need to 
 The easiest way is to use the proportional-derivative controller for the position and altitude contro of the tether.
 The force controller uses the difference between desired chaser radius vector and actual chaser radius vector as the feedback signal. The force $\overrightarrow{F_{s,control}}$ equals $\mathbf{K_P}\left[\overrightarrow{r_{des}(t)}-\overrightarrow{r_c(t)}\right]+\mathbf{K_D}\left[\overrightarrow{\dot{r_{des}(t)}}-\overrightarrow{\dot{r_c(t)}}\right]$
 Similarly the torque controller uses the desired chaser attitude angle and actual chaser attitude angle as the control feedback signal.
-
-$$\tau_{control} =K_{P,\theta}\left[\theta_{des}(t)-\theta_c(t)\right] + K_{D,\theta}\left[\dot{\theta_{des}(t)}-\dot{\theta_c(t)}\right]$$
+\begin{equation}
+\tau_{control} =K_{P,\theta}\left[\theta_{des}(t)-\theta_c(t)\right] + K_{D,\theta}\left[\dot{\theta_{des}(t)}-\dot{\theta_c(t)}\right]
+\end{equation}
 
 $K_P,K_{P,\theta},, K_D,K_{D,\theta}$ are the Proportional gain matrix and the Derivative gain matrix respectively. These matrix value are designed and tuned by designer for the special case.
 
 \section{MATLAB Implementation}
-In this section, the MATLAB simulation case is implemented. To simplified the study, the implementation case use only one controller. The thrust stabilization only use force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. In the real case the controller can be the combination of these two kinds. Here we just implemented the Thrust stabilization of single tether for illustration the problem.
+In this section, the MATLAB simulation case \ref{appendix-thruststab} is implemented. To simplified the study, the implementation case use only one controller. The thrust stabilization only use force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. In the real case the controller can be the combination of these two kinds. Here we just implemented the Thrust stabilization of single tether for illustration the problem.
 
 The detail MATLAB code is in the Appendix. Symbols have the same meaning and constant values are not changed, as\cite{hovell2017experimental}. 
 
-\section{Thrust stabilization}\ref{appendix-thruststab}
-
-The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replayced by any other arbitarily defined motion. $$\overrightarrow{r_{des}(t)}=\overrightarrow{r_0}+\overrightarrow{d}\frac{t^2}{2}$$ d is the acceleration got from the desired final radius vector, the initial radius vector and assigned time for motion, $\overrightarrow{d} = \frac{2(\overrightarrow{r_{final}}-\overrightarrow{r_0})}{t^2}$.
-$\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$ 
-
-
+\subsection{Thrust stabilization}
+The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replayced by any other arbitarily defined motion.
+\begin{equation}
+\overrightarrow{r_{des}(t)}=\overrightarrow{r_0}+\overrightarrow{d}\frac{t^2}{2}
+\end{equation} d is the acceleration got from the desired final radius vector, the initial radius vector and assigned time for motion, $\overrightarrow{d} = \frac{2(\overrightarrow{r_{final}}-\overrightarrow{r_0})}{t^2}$, $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$ 
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.48\textwidth}
@@ -232,7 +234,6 @@ $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$
 \end{minipage}
 \caption{Comparison of Target tether angle. Left: Kaiwen	Right: Hovell}
 \end{figure}
-
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.48\textwidth}
@@ -245,7 +246,6 @@ $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$
 \end{minipage}
 \caption{Comparison of Target angular rate.		Left: Kaiwen	Right: Hovell}
 \end{figure}
-
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.48\textwidth}
@@ -258,7 +258,6 @@ $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$
 \end{minipage}
 \caption{Comparison of Total angular momentum.		Left: Kaiwen	Right: Hovell}
 \end{figure}
-
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.48\textwidth}
@@ -271,7 +270,6 @@ $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$
 \end{minipage}
 \caption{Comparison of Total angular momentum.		Left: Kaiwen	Right: Hovell}
 \end{figure}
-
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.48\textwidth}
@@ -285,8 +283,5 @@ $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$
 \caption{Track of Target}
 \end{minipage}
 \end{figure}
-
 From the figure comparison, we know that the effect of implementation is quite well.
-
-
 \newpage

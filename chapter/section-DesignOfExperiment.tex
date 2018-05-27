@@ -94,7 +94,7 @@ The channel controls the frequency band that Xbee commmunicates over. XBee's ope
 
 Personal area network ID (PAN ID) is some hexadecimal value between 0 and 0xFFFF. Similar to the channel, the two Xbee modules in the same network must have the same network ID and the different network should have different PAN ID.
 
- Each XBee in a network should be assigned a 16-bit address (again between 0 and 0xFFFF), which is referred to as MY address, or the “source” address. Another setting, the destination address, determines which source address an XBee can send data to. For one XBee to be able to send data to another, it must have the same destination address as the other XBee's source.
+ Each XBee in a network should be assigned a 16-bit address (again between 0 and 0xFFFF), which is referred to as MY address, or the "source" address. Another setting, the destination address, determines which source address an XBee can send data to. For one XBee to be able to send data to another, it must have the same destination address as the other XBee's source.
 
 Each XBee has a unique 16-bit Source Address i.e. MY address.
 
@@ -123,7 +123,7 @@ To plot the real-time streaming data and record them we need to use MATLAB. MATL
 
 The MATLAB code \ref{appendix-realtime} gives the function. This MATLAB file reads the serial post, plots the three physical quantities and saves the data into record matrix.       
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{fig/DOE/acceleration}
 \includegraphics[width=\textwidth]{fig/DOE/gyro}
@@ -134,27 +134,68 @@ The MATLAB code \ref{appendix-realtime} gives the function. This MATLAB file rea
 \section{Testbed fabrication}
 Utilizing Porous Media Technology Air Bushings deliver low coefficients of friction and high motion-control resolution for less-expensive road. The ideal components for building frictionless linear motion, Air Bearings were the original standard, off-the-shelf, porous media air bearing product line. 
 
-The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong indigenous nanosat engineering test facilities), designed by Dr. Pok Wang KWAN is showing below. The experimental has been carefully engineered to reduce the cost while it intended to provide good performance.
+The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong indigenous nanosat engineering test facilities), designed by Dr. Pok Wang KWAN is showing below. The experimental has been carefully engineered to reduce the cost while it intended to provide good performance. The air bushing floating platform shall provide low friction translational motion on horizontal plane(two degrees of freedom).
 
-\begin{figure}[!b]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{fig/DOE/AirBushingPlanarPlatform}
+\includegraphics[width=\textwidth]{fig/DOE/Original3DView}
 \caption{Air Bushing Planar Torque Free Motion simulator}
 \end{figure}
 
-However, the Air Bushing Torque Free MOtion simulator has a fatal problem. As the weight of top floor air bushings and top floor rods are beared by the bottom floor air bushings and rods, the mass of inertia along two axes are different. If two forces with same magnitude exerted on the same point of action along two verticle axes, the top floor air bushings will generate much bigger acceleration than the bottom floor air bushings since the motion along that way is much more eaiser.
-
-In Solidworks, using Motion study modules, the simulation result of Motion Analysis also support this argument. As we can see the blue line represent the acceleration(2) of bottom floor, around 81 $mm/sec^2$ which is much much smaller than the aceeleration of top floor. The top floor air bushing has the acceleration more than 1300 $mm/sec^2$. The oscillation of accleration means the air bushing of top floor hits the border and got reversal small acceleration. The exerted force have the same magnitutde and vertical direction. One is along the long thick rod and the other is along the shord thin rod.   
-\begin{figure}[!h]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{fig/DOE/MotionAnalysis}
+\includegraphics[width=\textwidth]{fig/DOE/3viewdrawing}
+\caption{Air Bushing Planar Torque Free Motion simulator-Three View Drawing}
+\end{figure}
+
+However, the Air Bushing Torque Free Motion simulator has a fatal problem. As the weight of top floor air bushings and top floor rods are beared by the bottom floor air bushings and rods, the mass of inertia along two axes are different. If two forces with same magnitude exerted on the same point of action along two verticle axes, the top floor air bushings will generate much bigger acceleration than the bottom floor air bushings since the motion along that way is much more eaiser.
+
+
+\begin{figure}[H]\label{DOE-force}
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm]{fig/DOE/Rightforce}
+\caption{Exerted force Right View}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm]{fig/DOE/ForwardForce}
+\caption{Exerted force Front View}
+\end{minipage}
+\end{figure}
+
+
+In Solidworks, using Motion study modules, the simulation result of Motion Analysis also support this argument. As we can see the blue line represent the acceleration(2) of bottom floor, around 81 $mm/sec^2$ which is much much smaller than the aceeleration of top floor. The top floor air bushing has the acceleration more than 1300 $mm/sec^2$. The oscillation of accleration means the air bushing of top floor hits the border and got reversal small acceleration. The exerted force have the same magnitutde and vertical direction. One is along the long thick rod and the other is along the short thin rod.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{fig/DOE/MotionAnalysis}
 \caption{Solidworks Motion Anlysis} 
 \end{figure} 
 
-In theory the problem can be solved by using compensation mechanism.
+In theory the problem can be solved by using compensation mechanism. If we add another pair of Air Bushing Torque Free Motion simulator at the top of the original one and let them be vertical, then we use some physical connection such as rod or bar to connect these two pairs of simulator. The top plane and the bottom plane are fixed. The mass of Inertia along two axes now become the same and the problem can be solved. 
 
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm]{fig/DOE/FrontView}
+\end{minipage}
+\begin{minipage}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=6cm]{fig/DOE/RightView}
+\end{minipage}
+\caption{Compensation configuration conception}
+\end{figure}
 
+Due to the weight of the fixing platform is too heavy and the additional need of rotation degree of freedom,the Suspension/Hanging configuration is used. A shroud bracket is connected with the moving air bushing mounting blocks and moves together. The Cubusat is connected to shroud bracket using a string, which provide the rotational degree of freedom. 
 
-
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\linewidth]{fig/DOE/Hang}
+\caption{Hanging configuration} 
+\end{figure} 
 
 \newpage
