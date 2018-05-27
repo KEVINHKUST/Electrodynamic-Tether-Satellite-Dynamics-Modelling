@@ -1,7 +1,7 @@
 \chapter{Case study and MATLAB simulation implementation}\label{section-case}
 In this chapter, an specific example\cite{hovell2017experimental} of tether satellite system is studied. In this case study, the used dynamic model and Proportional-Differentiation controller are the main analysis focuses. At the end, MATLAB simulation is also implemented.
 
-The tether satellite system consists of two satellite and a tether. The two satellites are named as Target Vehicle and Chaser vehicle which means the task of Chaser vehicle is to capture the target vehicle and to de-rotation of the system. In the real case the target vehicle can be space debris which is moving and rotation around Earth under the gravational force of the Earth. Space debris not only rotates around the Earth, in fact it will also rotate around its body center if any .De-orbiting can be achieved if the energy and angular momentum of space debris consumed.
+The tether satellite system consists of two satellite and a tether. The two satellites are named as Target Vehicle and Chaser vehicle which means the task of Chaser vehicle is to capture the target vehicle and to de-rotation of the system. In the real case the target vehicle can be space debris which is moving and rotation around Earth under the gravitational force of the Earth. Space debris not only rotates around the Earth, in fact it will also rotate around its body center if any .De-orbiting can be achieved if the energy and angular momentum of space debris consumed.
 \begin{figure}[ht]
 
 \includegraphics[width=\textwidth]{fig/simulation/ReferenceFrame}
@@ -11,7 +11,7 @@ The tether satellite system consists of two satellite and a tether. The two sate
 When we let our chaser vehicle connect with target vehicle using tether, the consumption of angular momentum becomes faster and the deorbiting gets quicker.  
 So we can say that chaser vehicle plays as a role of active debris remover.
 
-Using different kind of tether configuration, the effect of deorbiting target vehicle can be quite different.In Hovell's article, single tether confguration and sub-tether configuration are compared. The sub-tether configuration is like harpoon. The main tether links the Chaser vehicle with the junction point, which will be modeled as a point mass later.Two seperate tethers link the junction and Target vehicle. The proposed sub-tether configuration can enhance the deorbiting mechanism, reducing the target tether angle and angular rate of target and finally dissipating angular momentum from the system much more quickly.  
+Using different kind of tether configuration, the effect of deorbiting target vehicle can be quite different.In Hovell's article, single tether configuration and sub-tether configuration are compared. The sub-tether configuration is like harpoon. The main tether links the Chaser vehicle with the junction point, which will be modeled as a point mass later.Two separate tethers link the junction and Target vehicle. The proposed sub-tether configuration can enhance the deorbiting mechanism, reducing the target tether angle and angular rate of target and finally dissipating angular momentum from the system much more quickly.  
 \section{Physical Model Assumption}
 
 \begin{enumerate}
@@ -25,7 +25,7 @@ The tether is assumed as massless since it is much more lighter than end-body sa
 Only three degree of freedom is considered in this case which means the satellite can only do translational motion along X axis and Y axis and rotational motion about the Z axis. This assumption makes the dynamics modeling of satellite much easier. The two satellites, target and chaser, are at the same level height which means there is no translational motion along Z axis i.e the z = 0. Similarly, the rotational motion about X axis and the rotational motion about Y axis are not con
 \item No external forces applied to the center of mass of the whole tethered satellite system\\
 
-In the tether satellite system, the force of tether and the chaser's control force are force source. No external force, such as gravational force and distrubance force applied to the center of mass of the whole system. 
+In the tether satellite system, the force of tether and the chaser's control force are force source. No external force, such as gravitational force and disturbance force applied to the center of mass of the whole system. 
 \item The Inertia matrix is constant
 
 \item Body frame of each of the end-masses is aligned with the principal axes of the end-masses
@@ -33,13 +33,13 @@ In the tether satellite system, the force of tether and the chaser's control for
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.8\textwidth,right]{fig/simulation/illustration.png}
+\includegraphics[width = 0.8\textwidth,right]{fig/simulation/illustration.png}
 \caption{Definition of the Inertial frame, Chaser body frame and Target body coordinate systems}
 \label{simu-illustration}
 \end{figure}
 
 
-There are three coordinate systems defined in the article and all of them are defined as right-handed system. Between two different coordinate systems the attitude matrix $A(\theta)$ is the transformation matrix whcih used to rotate the vector components from a body frame to Inertial frame. 
+There are three coordinate systems defined in the article and all of them are defined as right-handed system. Between two different coordinate systems the attitude matrix $A(\theta)$ is the transformation matrix which used to rotate the vector components from a body frame to Inertial frame. 
 \begin{equation}
 A(\theta) =
 	\begin{bmatrix}
@@ -48,7 +48,7 @@ A(\theta) =
 	\end{bmatrix}
 \end{equation}
 
-	The point where tether attached the Chaser vehicle or Target vehicle is called attached point. This point is fixed in the body frame so that we can use tether attachment vector with respect to the body centor of mass to describe this attach point. The tether attachment vector is denoted as $a$.
+	The point where tether attached the Chaser vehicle or Target vehicle is called attached point. This point is fixed in the body frame so that we can use tether attachment vector with respect to the body center of mass to describe this attach point. The tether attachment vector is denoted as $a$.
 The attitude $\theta$  of a body frame ($F_C$ for the chaser or $F_T$ for of the target) is the angle of rotation between the body frame relative to the Inertial frame $F_I$ about the z-axis where the z-axis of all inertial and body frames are parallel. The transformation of vectors from body frame to Inertial frame is using the equation  $\mathbf{x_I}=A(\theta)\mathbf{x_b}$ which $I$ means Inertial frame and $b$ means body frame.
 \boldmath
 \begin{enumerate}
@@ -152,7 +152,7 @@ The tether tension is:
 	}
 	}
 \end{equation}
-$\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}$ is the unit vector of the tether.$\Delta\overrightarrow{v}$ is the difference of the time derivative of two body's absolute postion. 
+$\frac{\overrightarrow{L_S}}{\norm{\overrightarrow{L_S}}}$ is the unit vector of the tether.$\Delta\overrightarrow{v}$ is the difference of the time derivative of two body's absolute position. 
 \begin{equation}\Delta\overrightarrow{v} = \frac{d}{dt}(\overrightarrow{r_t}+A(\theta_t)\overrightarrow{a_t}) - \frac{d}{dt}(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c}) = \overrightarrow{v_t} + \frac{d}{dt}(A(\theta_t))\overrightarrow{a_t}-\overrightarrow{v_c}-\frac{d}{dt}(A(\theta_c))\overrightarrow{a_c}\end{equation}
 Since the derivate is used for the angle, we can rewrite the $\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t}$ in terms of angular rate and tether attachment vector.
 \begin{equation}\frac{d}{dt}(A(\theta_t))\overrightarrow{a_t} = \frac{d}{dt}
@@ -189,7 +189,7 @@ Tether torque can be written as the time derivative of system angular momentum. 
 		=\dot{H_{relative}} =\frac{J_{zz}\omega}{dt}= J_{zz}\dot{\omega}
 \end{equation}
 The torque in Inertial frame equals the torque in body frame.
-For the rigid body i In the inertial frame, the euler's equation gives us the relationship between the exerted torque $\tau$ and resulted angular acceleration $\dot{\omega}$ .i.e. 
+For the rigid body i In the inertial frame, the Euler's equation gives us the relationship between the exerted torque $\tau$ and resulted angular acceleration $\dot{\omega}$ .i.e. 
 \begin{equation}
 J_i\dot{\omega} + \omega_i \times J_i\omega_i=\sum\tau
 \end{equation}
@@ -197,13 +197,13 @@ According to the assumption \ref{simu-assumption} we can simplified the Euler's 
 $\tau=a_i\times F^i_S$	$\tau_t = a_{t,y}F_{s,x}^t - a_{t,x}F_{s,y}^t$	$\tau_c = a_{c,x}F_{s,x}^c - a_{c,y}F_{s,x}^c$
 
 \section{Control goal of Chaser vehicle}
-To archieve the goal of deorbiting target satellite, the Chaser vehicle need to regulate and reduce the angle between tether and target so as to make the tether aligned with the target or force Chaser and target has the parellel surface. To reduce the angular rate of target vehicle, dissipate angular momentume from the system and at last make the target go to lower altitude orbit.
+To archive the goal of deorbiting target satellite, the Chaser vehicle need to regulate and reduce the angle between tether and target so as to make the tether aligned with the target or force Chaser and target has the parallel surface. To reduce the angular rate of target vehicle, dissipate angular momentum from the system and at last make the target go to lower altitude orbit.
 \begin{figure}
 \centering
 \includegraphics{fig/simulation/TetherTargetAngle}
 \caption{Positive tether target angle}
 \end{figure}
-The easiest way is to use the proportional-derivative controller for the position and altitude contro of the tether.
+The easiest way is to use the proportional-derivative controller for the position and altitude control of the tether.
 The force controller uses the difference between desired chaser radius vector and actual chaser radius vector as the feedback signal. The force $\overrightarrow{F_{s,control}}$ equals $\mathbf{K_P}\left[\overrightarrow{r_{des}(t)}-\overrightarrow{r_c(t)}\right]+\mathbf{K_D}\left[\overrightarrow{\dot{r_{des}(t)}}-\overrightarrow{\dot{r_c(t)}}\right]$
 Similarly the torque controller uses the desired chaser attitude angle and actual chaser attitude angle as the control feedback signal.
 \begin{equation}
@@ -218,7 +218,7 @@ In this section, the MATLAB simulation case \ref{appendix-thruststab} is impleme
 The detail MATLAB code is in the Appendix. Symbols have the same meaning and constant values are not changed, as\cite{hovell2017experimental}. 
 
 \subsection{Thrust stabilization}
-The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replayced by any other arbitarily defined motion.
+The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replaced by any other arbitrarily defined motion.
 \begin{equation}
 \overrightarrow{r_{des}(t)}=\overrightarrow{r_0}+\overrightarrow{d}\frac{t^2}{2}
 \end{equation} d is the acceleration got from the desired final radius vector, the initial radius vector and assigned time for motion, $\overrightarrow{d} = \frac{2(\overrightarrow{r_{final}}-\overrightarrow{r_0})}{t^2}$, $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$ 

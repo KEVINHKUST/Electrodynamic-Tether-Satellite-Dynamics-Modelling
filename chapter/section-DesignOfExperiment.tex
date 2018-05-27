@@ -9,7 +9,7 @@ The HKUST CYT Lab has a lot of ArduSat DemosSat. ArduSat is an Arduino based Nan
 \end{figure}
 The DemoSat is designed to the CubeSat One Unit (1U) standard. The 3D printed frame comes fully assembled with standoffs and see-through acrylic platforms. Each DemoSat also includes all of the components included in the Because Learning Sensor Kit. The Because Learning Sensor Kit includes:
 \begin{enumerate}
-\item Microcontroller programmed w/ Arduino 
+\item Micro controller programmed w/ Arduino 
 \item Because Learning 'Sensor board' sensors 
 \begin{itemize}
 \item Accelerometer
@@ -17,10 +17,10 @@ The DemoSat is designed to the CubeSat One Unit (1U) standard. The 3D printed fr
 \item Magnetometer
 \end{itemize}
 \end{enumerate} 
-Also the DemoSat includes two wireless radio frequency (RF) radios. They are Digi XBee 2.4Ghz modules. One is connected inside the DemoSat and the second is connect via USB to labptop. By doing this it enables the DemoSatellite to communicate up to 1500 meter from the computer.
+Also the DemoSat includes two wireless radio frequency (RF) radios. They are Digi XBee 2.4Ghz modules. One is connected inside the DemoSat and the second is connect via USB to laptop. By doing this it enables the DemoSatellite to communicate up to 1500 meter from the computer.
 It can get our interested acceleration, angular rate and orientation of the Satellites at real time wirelessly.
 \subsection{Arduino Data Acquisition}
-Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK\cite{https://github.com/ArduSat/ArdusatSDK}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board.
+Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK\cite{ardusatsdk}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board.
 
 \begin{figure}[!b]
 \centering
@@ -28,7 +28,7 @@ Our interested physical quantities are acceleration, angular rate and Orientatio
 \caption{LSM303 Triple-axis Accelerometer plus Magnetometer (Compass) Board}
 \end{figure}
 
-For the reason of real-time ploting simplicity, the Comma-separated values(CSV) format which provides the timestamp of action, is adopted. The CSV streaming Arduino code\ref{appendix-CSV} is written. The CSV format is like: \textbf{timestamp,sensorName,values,...,checksum}.
+For the reason of real-time plotting simplicity, the Comma-separated values(CSV) format which provides the timestamp of action, is adopted. The CSV streaming Arduino code\ref{appendix-CSV} is written. The CSV format is like: \textbf{timestamp,sensorName,values,...,checksum}.
 
 For example, one of the result is like this(during around 100ms):
 
@@ -61,9 +61,9 @@ For example, one of the result is like this(during around 100ms):
 ...
 \end{quote}
 
-The timestamp is the time value from which the program was runned, in millisecond. The last number is checksum which used for check the communication.
-The Baudrate is set as 5700 as softwareSerial does not appear to work reliably above 57600 baud.\cite{https://github.com/ArduSat/ArdusatSDK}
-When using Baudrate as 57600, the update frequency of physical quantities are 32Hz, which menas every second we can get 32 groups of acceleration, angular rate and orientation. The unit of baudrate is bits per second.i.e. 57600 bits per second equals 7.2KB/s.
+The time-stamp is the time value from which the program was operated, in millisecond. The last number is checksum which used for check the communication.
+The baud rate is set as 5700 as softwareSerial does not appear to work reliably above 57600 baud.\cite{ardusatsdk}
+When using baud rate as 57600, the update frequency of physical quantities are 32Hz, which means every second we can get 32 groups of acceleration, angular rate and orientation. The unit of baud rate is bits per second.i.e. 57600 bits per second equals 7.2KB/s.
 
 \subsection{Xbee modules configuration}
 \begin{figure}[!h]
@@ -71,7 +71,7 @@ When using Baudrate as 57600, the update frequency of physical quantities are 32
 \includegraphics{fig/DOE/XbeeShield}
 \caption{Xbee part with Shield}
 \end{figure}
-Digi XCTU\cite{https://www.digi.com/products/xbee-rf-solutions/xctu-software/xctu} is the software used to configure the Xbee modules. In our case, two Ardusat Demosat should send the real time data to the computers seperately.The two XBee parts are on Ardusat A and Ardusat B The other two Xbee parts are pluged in shields and the shields are connected to Computer A and Computer B respectively. All the Xbee parts should be set carefully\cite{https://learn.sparkfun.com/tutorials/exploring-xbees-and-xctu/configuring-networks}. 
+Digi XCTU\cite{DigiCite} is the software used to configure the Xbee modules. In our case, two Ardusat Demosat should send the real time data to the computers separately.The two XBee parts are on Ardusat A and Ardusat B The other two Xbee parts are plugged in shields and the shields are connected to Computer A and Computer B respectively. All the Xbee parts should be set carefully\cite{XbeeSetting}. 
 \begin{table}[!h]
 \renewcommand\arraystretch{2}
 	\begin{center}
@@ -90,7 +90,7 @@ Digi XCTU\cite{https://www.digi.com/products/xbee-rf-solutions/xctu-software/xct
 	\end{tabular}	
 	\end{center}
 \end{table}
-The channel controls the frequency band that Xbee commmunicates over. XBee's operate on the 2.4GHZ 802.15.4 band, and the channel further calibrates the operating frequency within that band. The two XBee modules having on the same network operates on the same channel. The two networks are using different channels in case they interatct with each other.
+The channel controls the frequency band that Xbee communicates over. XBee's operate on the 2.4GHZ 802.15.4 band, and the channel further calibrates the operating frequency within that band. The two XBee modules having on the same network operates on the same channel. The two networks are using different channels in case they interact with each other.
 
 Personal area network ID (PAN ID) is some hexadecimal value between 0 and 0xFFFF. Similar to the channel, the two Xbee modules in the same network must have the same network ID and the different network should have different PAN ID.
 
@@ -112,7 +112,7 @@ The key is to reduce communication interference when two satellites are moving e
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.5\textwidth]{fig/DOE/Network}
+\includegraphics[width = 0.5\textwidth]{fig/DOE/Network}
 \caption{Xbee-networks}
 \end{figure}
 
@@ -134,7 +134,7 @@ The MATLAB code \ref{appendix-realtime} gives the function. This MATLAB file rea
 \section{Testbed fabrication}
 Utilizing Porous Media Technology Air Bushings deliver low coefficients of friction and high motion-control resolution for less-expensive road. The ideal components for building frictionless linear motion, Air Bearings were the original standard, off-the-shelf, porous media air bearing product line. 
 
-The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong indigenous nanosat engineering test facilities), designed by Dr. Pok Wang KWAN is showing below. The experimental has been carefully engineered to reduce the cost while it intended to provide good performance. The air bushing floating platform shall provide low friction translational motion on horizontal plane(two degrees of freedom).
+The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong indigenous nanosatellite engineering test facilities), designed by Dr. Pok Wang KWAN is showing below. The experimental has been carefully engineered to reduce the cost while it intended to provide good performance. The air bushing floating platform shall provide low friction translational motion on horizontal plane(two degrees of freedom).
 
 \begin{figure}[H]
 \centering
@@ -148,31 +148,31 @@ The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong i
 \caption{Air Bushing Planar Torque Free Motion simulator-Three View Drawing}
 \end{figure}
 
-However, the Air Bushing Torque Free Motion simulator has a fatal problem. As the weight of top floor air bushings and top floor rods are beared by the bottom floor air bushings and rods, the mass of inertia along two axes are different. If two forces with same magnitude exerted on the same point of action along two verticle axes, the top floor air bushings will generate much bigger acceleration than the bottom floor air bushings since the motion along that way is much more eaiser.
+However, the Air Bushing Torque Free Motion simulator has a fatal problem. As the weight of top floor air bushings and top floor rods are bear by the bottom floor air bushings and rods, the mass of inertia along two axes are different. If two forces with same magnitude exerted on the same point of action along two vertical axes, the top floor air bushings will generate much bigger acceleration than the bottom floor air bushings since the motion along that way is much easier.
 
 
 \begin{figure}[H]\label{DOE-force}
 \centering
 \begin{minipage}[t]{0.48\textwidth}
 \centering
-\includegraphics[width=6cm]{fig/DOE/Rightforce}
+\includegraphics[width = 6cm]{fig/DOE/Rightforce}
 \caption{Exerted force Right View}
 \end{minipage}
 \begin{minipage}[t]{0.48\textwidth}
 \centering
-\includegraphics[width=6cm]{fig/DOE/ForwardForce}
+\includegraphics[width = 6cm]{fig/DOE/ForwardForce}
 \caption{Exerted force Front View}
 \end{minipage}
 \end{figure}
 
 
-In Solidworks, using Motion study modules, the simulation result of Motion Analysis also support this argument. As we can see the blue line represent the acceleration(2) of bottom floor, around 81 $mm/sec^2$ which is much much smaller than the aceeleration of top floor. The top floor air bushing has the acceleration more than 1300 $mm/sec^2$. The oscillation of accleration means the air bushing of top floor hits the border and got reversal small acceleration. The exerted force have the same magnitutde and vertical direction. One is along the long thick rod and the other is along the short thin rod.
+In Solidworks, using Motion study modules, the simulation result of Motion Analysis also support this argument. As we can see the blue line represent the acceleration(2) of bottom floor, around 81 $mm/sec^2$ which is much much smaller than the acceleration of top floor. The top floor air bushing has the acceleration more than 1300 $mm/sec^2$. The oscillation of acceleration means the air bushing of top floor hits the border and got reversal small acceleration. The exerted force have the same magnitude and vertical direction. One is along the long thick rod and the other is along the short thin rod.
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig/DOE/MotionAnalysis}
-\caption{Solidworks Motion Anlysis} 
+\caption{Solidworks Motion Analysis} 
 \end{figure} 
 
 In theory the problem can be solved by using compensation mechanism. If we add another pair of Air Bushing Torque Free Motion simulator at the top of the original one and let them be vertical, then we use some physical connection such as rod or bar to connect these two pairs of simulator. The top plane and the bottom plane are fixed. The mass of Inertia along two axes now become the same and the problem can be solved. 
