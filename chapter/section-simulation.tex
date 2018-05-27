@@ -76,7 +76,7 @@ This section talks about the details of physical model and the motion governing 
 
 The governing equations are Newton's second law and Euler's equation.
 
-Using the Newton's second law we can get that the sum of force vector components acting on any body in Inertia Frame,$\mathbf{F}$, equals the mass of the satellite $m$ times the resulting acceleration vector components in Inertia Frame $\ddot{r}$ i.e. $ \mathbf{F} = m\mathbf{\ddot{r}}$
+Using the Newton's second law we can get that the sum of force vector components acting on any body in Inertia Frame, $\mathbf{F}$, equals the mass of the satellite $m$ times the resulting acceleration vector components in Inertia Frame $\ddot{r}$ i.e. $\mathbf{F} = m\mathbf{\ddot{r}}$
 
 Similarly, using the Euler's equation we can get that the torque of the chaser's body or target's body as a result of the force exerted by the tether and/or the chaser's control actuator equals z axis Principal moment of inertia multiplied by Angular velocity of an end-mass/satellite relative to the inertial frame (which also equals to the angular velocity relative the body frame) i.e. $J_{zz} \dot{\omega} = \tau_z$ 
 
@@ -126,7 +126,7 @@ The whole system is modeled as a nonlinear stiffness spring-damper system. The d
 \quad $F_{s}^c$ is the tether force expressed in $F_c$ i.e. $F_{s}^c = A(\theta_c)^TF_S$\\
 \quad $F_{s,x}^c,F_{s,y}^c$ are the x and y components of $F_{s}^c$ in $F_c$, respectively.
 
-\begin{figure}
+\begin{figure}\label{simu-flowchart}
 \centering
 \includegraphics[width=\textwidth]{fig/simulation/flowchart}
 \caption{Flowchart of the calculation process}
@@ -213,9 +213,9 @@ Similarly the torque controller uses the desired chaser attitude angle and actua
 $K_P,K_{P,\theta},, K_D,K_{D,\theta}$ are the Proportional gain matrix and the Derivative gain matrix respectively. These matrix value are designed and tuned by designer for the special case.
 
 \section{MATLAB Implementation}
-In this section, the MATLAB simulation case \ref{appendix-thruststab} is implemented. To simplified the study, the implementation case use only one controller. The thrust stabilization only use force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. In the real case the controller can be the combination of these two kinds. Here we just implemented the Thrust stabilization of single tether for illustration the problem.
+In this section, the MATLAB simulation case is implemented. To simplified the study, the implementation case use only one controller. The thrust stabilization only uses force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. In the real case the controller can be the combination of these two kinds. Here we just implemented the Thrust stabilization of single tether for illustration the problem through the flowchart \ref{simu-flowchart}.
 
-The detail MATLAB code is in the Appendix. Symbols have the same meaning and constant values are not changed, as\cite{hovell2017experimental}. 
+The detail MATLAB code is in the Appendix \ref{appendix-thruststab}. Symbols have the same meaning and constant values are not changed, as\cite{hovell2017experimental}. 
 
 \subsection{Thrust stabilization}
 The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replaced by any other arbitrarily defined motion.

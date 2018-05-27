@@ -1,7 +1,7 @@
 \chapter{Experiment Design}\label{sec-DOE}
 This chapter talks about the Experiment set up.
 \section{ArduSat}
-The HKUST CYT Lab has a lot of ArduSat DemosSat. ArduSat is an Arduino based Nanosatellite, based on the CubeSat standard. It contains a set of Arduino boards and sensors. The general public will be allowed to use these Arduinos and sensors for their own creative purposes while they are in space. 
+The HKUST CYT Lab has a lot of ArduSat DemosSats\cite{geeroms2015ardusat,peters2016ardusat}. ArduSat is an Arduino based Nanosatellite, based on the CubeSat standard. It contains a set of Arduino boards and sensors. The general public will be allowed to use these Arduinos and sensors for their own creative purposes while they are in space. 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm]{fig/DOE/Demosat}
@@ -20,15 +20,15 @@ The DemoSat is designed to the CubeSat One Unit (1U) standard. The 3D printed fr
 Also the DemoSat includes two wireless radio frequency (RF) radios. They are Digi XBee 2.4Ghz modules. One is connected inside the DemoSat and the second is connect via USB to laptop. By doing this it enables the DemoSatellite to communicate up to 1500 meter from the computer.
 It can get our interested acceleration, angular rate and orientation of the Satellites at real time wirelessly.
 \subsection{Arduino Data Acquisition}
-Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK\cite{ardusatsdk}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board.
+Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK\cite{ardusatsdk}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board.\ref{compass board}
 
-\begin{figure}[!b]
+\begin{figure}[!b]\label{compass board}
 \centering
 \includegraphics{fig/DOE/LSM}
 \caption{LSM303 Triple-axis Accelerometer plus Magnetometer (Compass) Board}
 \end{figure}
 
-For the reason of real-time plotting simplicity, the Comma-separated values(CSV) format which provides the timestamp of action, is adopted. The CSV streaming Arduino code\ref{appendix-CSV} is written. The CSV format is like: \textbf{timestamp,sensorName,values,...,checksum}.
+For the reason of real-time plotting simplicity, the Comma-separated values(CSV) format which provides the timestamp of action, is adopted. The CSV streaming Arduino code is written at Appendix \ref{appendix-CSV}. The CSV format is: \textbf{timestamp,sensorName,values,...,checksum}.
 
 For example, one of the result is like this(during around 100ms):
 
@@ -63,7 +63,7 @@ For example, one of the result is like this(during around 100ms):
 
 The time-stamp is the time value from which the program was operated, in millisecond. The last number is checksum which used for check the communication.
 The baud rate is set as 5700 as softwareSerial does not appear to work reliably above 57600 baud.\cite{ardusatsdk}
-When using baud rate as 57600, the update frequency of physical quantities are 32Hz, which means every second we can get 32 groups of acceleration, angular rate and orientation. The unit of baud rate is bits per second.i.e. 57600 bits per second equals 7.2KB/s.
+When using baud rate as 57600, the update frequency of physical quantities are 32Hz, which means every second we can get 32 groups of acceleration, angular rate and orientation. The unit of baud rate is bits per second.i.e. 57600 bits per second equals 7.2KB/s\cite{dong1994device}.
 
 \subsection{Xbee modules configuration}
 \begin{figure}[!h]
@@ -72,7 +72,7 @@ When using baud rate as 57600, the update frequency of physical quantities are 3
 \caption{Xbee part with Shield}
 \end{figure}
 Digi XCTU\cite{DigiCite} is the software used to configure the Xbee modules. In our case, two Ardusat Demosat should send the real time data to the computers separately.The two XBee parts are on Ardusat A and Ardusat B The other two Xbee parts are plugged in shields and the shields are connected to Computer A and Computer B respectively. All the Xbee parts should be set carefully\cite{XbeeSetting}. 
-\begin{table}[!h]
+\begin{table}[!h]\label{Xbee-configuration}
 \renewcommand\arraystretch{2}
 	\begin{center}
 	\caption{Xbee parts setting}
@@ -90,7 +90,7 @@ Digi XCTU\cite{DigiCite} is the software used to configure the Xbee modules. In 
 	\end{tabular}	
 	\end{center}
 \end{table}
-The channel controls the frequency band that Xbee communicates over. XBee's operate on the 2.4GHZ 802.15.4 band, and the channel further calibrates the operating frequency within that band. The two XBee modules having on the same network operates on the same channel. The two networks are using different channels in case they interact with each other.
+The channel controls the frequency band that Xbee communicates over. XBee's operate on the 2.4GHZ 802.15.4 band, and the channel further calibrates the operating frequency within that band. The two XBee modules having on the same network operates on the same channel, like Figure \ref{xbeenetworkexample}.  The two networks are using different channels in case they interact with each other.
 
 Personal area network ID (PAN ID) is some hexadecimal value between 0 and 0xFFFF. Similar to the channel, the two Xbee modules in the same network must have the same network ID and the different network should have different PAN ID.
 
@@ -102,26 +102,26 @@ In our case, the task is that On Ardusat A XBee should only send data to to A sh
 
 There are two way to configure destination address
 \begin{enumerate}
-\item Leave Destination Address High set to 0, and set Destination Address Low to the MY address of the receiving XBee.
+\item Leave Destination Address High set to 0, and set Destination Address Low to the MY address of the receiving XBee.\label{method1}
 
-\item Set Destination Address High to the Serial Number High (SH) and Destination Address Low to the Serial Number Low (SL) of your destination XBee.
+\item Set Destination Address High to the Serial Number High (SH) and Destination Address Low to the Serial Number Low (SL) of your destination XBee.\label{method2}
 \end{enumerate}
-To assure that each network has high fidelity and the communication interference between A network and B network is as low as possible, the A network is only using method 1 and the B network is using method 2. A network's configuration obeys method 1 and disobeys method 2. B network's configuration obeys method 2 and goes against method 1.
+To assure that each network has high fidelity and the communication interference between A network and B network is as low as possible, the A network is only using method \ref{method1} and the B network is using method \ref{method2}. A network's configuration obeys method \ref{method1} and disobeys method \ref{method2}. B network's configuration obeys method \ref{method2} and goes against method \ref{method1}.
 
-The key is to reduce communication interference when two satellites are moving especially when they are quite close.
+The key is to reduce communication interference when two satellites are moving especially when they are quite close.The final configuration is showed at Table \ref{xbeenetworkexample}.
 
-\begin{figure}[ht]
+\begin{figure}[ht]\label{xbeenetworkexample}
 \centering
 \includegraphics[width = 0.5\textwidth]{fig/DOE/Network}
-\caption{Xbee-networks}
+\caption{Xbee-networks example}
 \end{figure}
 
 \subsection{Real-time data streaming to MATLAB via USB}
 Since the Xbee modules can send data wirelessly to the shield module, the Arduino Serial Monitor is able to receive and pop out the streaming txt data. However, Arduino cannot plot the received data at real time and save the data synchronously.
 
-To plot the real-time streaming data and record them we need to use MATLAB. MATLAB serial can create serial port object. The Xbee shield is connected to computer via USB serial port.
+To plot the real-time streaming data and record them we need to use MATLAB\cite{manalo2012usb}. MATLAB serial can create the serial port object. The Xbee shield is connected to computer via USB and using serial port to do data transmission.
 
-The MATLAB code \ref{appendix-realtime} gives the function. This MATLAB file reads the serial post, plots the three physical quantities and saves the data into record matrix.       
+The MATLAB code in Appendix \ref{appendix-realtime} gives the functionality. This MATLAB file reads the serial post, plots the three physical quantities and saves the data into record matrix.       
 
 \begin{figure}[H]
 \centering
@@ -134,12 +134,12 @@ The MATLAB code \ref{appendix-realtime} gives the function. This MATLAB file rea
 \section{Testbed fabrication}
 Utilizing Porous Media Technology Air Bushings deliver low coefficients of friction and high motion-control resolution for less-expensive road. The ideal components for building frictionless linear motion, Air Bearings were the original standard, off-the-shelf, porous media air bearing product line. 
 
-The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong indigenous nanosatellite engineering test facilities), designed by Dr. Pok Wang KWAN is showing below. The experimental has been carefully engineered to reduce the cost while it intended to provide good performance. The air bushing floating platform shall provide low friction translational motion on horizontal plane(two degrees of freedom).
+The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong indigenous nanosatellite engineering test facilities), designed by Dr. Pok Wang KWAN is showing at Figure \ref{MotionSimulator} The experimental has been carefully engineered to reduce the cost while it intended to provide good performance. The air bushing floating platform shall provide low friction translational motion on horizontal plane(two degrees of freedom).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{fig/DOE/Original3DView}
-\caption{Air Bushing Planar Torque Free Motion simulator}
+\caption{Air Bushing Planar Torque Free Motion simulator}\label{MotionSimulator}
 \end{figure}
 
 \begin{figure}[H]
@@ -166,13 +166,13 @@ However, the Air Bushing Torque Free Motion simulator has a fatal problem. As th
 \end{figure}
 
 
-In Solidworks, using Motion study modules, the simulation result of Motion Analysis also support this argument. As we can see the blue line represent the acceleration(2) of bottom floor, around 81 $mm/sec^2$ which is much much smaller than the acceleration of top floor. The top floor air bushing has the acceleration more than 1300 $mm/sec^2$. The oscillation of acceleration means the air bushing of top floor hits the border and got reversal small acceleration. The exerted force have the same magnitude and vertical direction. One is along the long thick rod and the other is along the short thin rod.
+In Solidworks, using Motion study modules, the simulation result(Figure \ref{Resulte of analysis}) of Motion Analysis also support this argument. As we can see the blue line represent the acceleration(2) of bottom floor, around 81 $mm/sec^2$ which is much much smaller than the acceleration of top floor. The top floor air bushing has the acceleration more than 1300 $mm/sec^2$. The oscillation of acceleration means the air bushing of top floor hits the border and got reversal small acceleration. The exerted force have the same magnitude and vertical direction. One is along the long thick rod and the other is along the short thin rod.
 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig/DOE/MotionAnalysis}
-\caption{Solidworks Motion Analysis} 
+\caption{Solidworks Motion Analysis}\label{Resulte of analysis} 
 \end{figure} 
 
 In theory the problem can be solved by using compensation mechanism. If we add another pair of Air Bushing Torque Free Motion simulator at the top of the original one and let them be vertical, then we use some physical connection such as rod or bar to connect these two pairs of simulator. The top plane and the bottom plane are fixed. The mass of Inertia along two axes now become the same and the problem can be solved. 
