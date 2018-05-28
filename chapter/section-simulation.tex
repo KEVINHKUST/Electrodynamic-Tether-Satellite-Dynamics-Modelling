@@ -5,7 +5,7 @@ The tether satellite system consists of two satellite and a tether. The two sate
 \begin{figure}[ht]
 
 \includegraphics[width=\textwidth]{fig/simulation/ReferenceFrame}
-\caption{Reference frame and vector definition for planar dynamics modeling}
+\caption{Reference frame and vector definition for planar dynamics modeling\cite{hovell2017experimental}}
 
 \end{figure}
 When we let our chaser vehicle connect with target vehicle using tether, the consumption of angular momentum becomes faster and the deorbiting gets quicker.  
@@ -34,8 +34,7 @@ In the tether satellite system, the force of tether and the chaser's control for
 \begin{figure}[ht]
 \centering
 \includegraphics[width = 0.8\textwidth,right]{fig/simulation/illustration.png}
-\caption{Definition of the Inertial frame, Chaser body frame and Target body coordinate systems}
-\label{simu-illustration}
+\caption{Definition of the Inertial frame, Chaser body frame and Target body coordinate systems}\label{simu-illustration}
 \end{figure}
 
 
@@ -99,13 +98,12 @@ The whole system is modeled as a nonlinear stiffness spring-damper system. The d
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \includegraphics[width=6cm]{fig/simulation/Systemmodel}
-\caption{System model}
-\label{simu-systemmodel}
+\caption{System model\cite{hovell2017experimental}}\label{simu-systemmodel}
 \end{minipage}
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \includegraphics[width=6cm]{fig/simulation/StiffnessStetchRelation}
-\caption{Stiffness stetch relation}
+\caption{Stiffness stetch relation\cite{hovell2017experimental}}
 \end{minipage}
 \end{figure}
 
@@ -126,11 +124,10 @@ The whole system is modeled as a nonlinear stiffness spring-damper system. The d
 \quad $F_{s}^c$ is the tether force expressed in $F_c$ i.e. $F_{s}^c = A(\theta_c)^TF_S$\\
 \quad $F_{s,x}^c,F_{s,y}^c$ are the x and y components of $F_{s}^c$ in $F_c$, respectively.
 
-\begin{figure}\label{simu-flowchart}
+\begin{figure}
 \centering
 \includegraphics[width=\textwidth]{fig/simulation/flowchart}
-\caption{Flowchart of the calculation process}
-\label{simu-flowchart}
+\caption{Flowchart of the calculation process}\label{simu-flowchart}
 \end{figure}
 
 \subsection{Tether length, tether tension and tether torque}
@@ -201,10 +198,13 @@ To archive the goal of deorbiting target satellite, the Chaser vehicle need to r
 \begin{figure}
 \centering
 \includegraphics{fig/simulation/TetherTargetAngle}
-\caption{Positive tether target angle}
+\caption{Positive tether target angle\cite{hovell2017experimental}}
 \end{figure}
 The easiest way is to use the proportional-derivative controller for the position and altitude control of the tether.
-The force controller uses the difference between desired chaser radius vector and actual chaser radius vector as the feedback signal. The force $\overrightarrow{F_{s,control}}$ equals $\mathbf{K_P}\left[\overrightarrow{r_{des}(t)}-\overrightarrow{r_c(t)}\right]+\mathbf{K_D}\left[\overrightarrow{\dot{r_{des}(t)}}-\overrightarrow{\dot{r_c(t)}}\right]$
+The force controller uses the difference between desired chaser radius vector and actual chaser radius vector as the feedback signal. The control force:  
+\begin{equation}
+\overrightarrow{F_{s,control}} = \mathbf{K_P}\left[\overrightarrow{r_{des}(t)}-\overrightarrow{r_c(t)}\right]+\mathbf{K_D}\left[\overrightarrow{\dot{r_{des}(t)}}-\overrightarrow{\dot{r_c(t)}}\right]
+\end{equation}
 Similarly the torque controller uses the desired chaser attitude angle and actual chaser attitude angle as the control feedback signal.
 \begin{equation}
 \tau_{control} =K_{P,\theta}\left[\theta_{des}(t)-\theta_c(t)\right] + K_{D,\theta}\left[\dot{\theta_{des}(t)}-\dot{\theta_c(t)}\right]
@@ -221,7 +221,7 @@ The detail MATLAB code is in the Appendix \ref{appendix-thruststab}. Symbols hav
 The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replaced by any other arbitrarily defined motion.
 \begin{equation}
 \overrightarrow{r_{des}(t)}=\overrightarrow{r_0}+\overrightarrow{d}\frac{t^2}{2}
-\end{equation} d is the acceleration got from the desired final radius vector, the initial radius vector and assigned time for motion, $\overrightarrow{d} = \frac{2(\overrightarrow{r_{final}}-\overrightarrow{r_0})}{t^2}$, $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$ 
+\end{equation} d is the acceleration got from the desired final radius vector, the initial radius vector and assigned time for motion, $\overrightarrow{d} = \frac{2(\overrightarrow{r_{final}}-\overrightarrow{r_0})}{t^2}$, so the desired velocity equals $\overrightarrow{\dot{r_{des}}(t)}=\overrightarrow{d}t$.
 \begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.48\textwidth}

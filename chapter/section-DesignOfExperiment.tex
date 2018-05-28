@@ -20,12 +20,12 @@ The DemoSat is designed to the CubeSat One Unit (1U) standard. The 3D printed fr
 Also the DemoSat includes two wireless radio frequency (RF) radios. They are Digi XBee 2.4Ghz modules. One is connected inside the DemoSat and the second is connect via USB to laptop. By doing this it enables the DemoSatellite to communicate up to 1500 meter from the computer.
 It can get our interested acceleration, angular rate and orientation of the Satellites at real time wirelessly.
 \subsection{Arduino Data Acquisition}
-Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK\cite{ardusatsdk}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board.\ref{compass board}
+Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK\cite{ardusatsdk}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board (Figure \ref{compass board}).
 
-\begin{figure}[!b]\label{compass board}
+\begin{figure}[!b]
 \centering
 \includegraphics{fig/DOE/LSM}
-\caption{LSM303 Triple-axis Accelerometer plus Magnetometer (Compass) Board}
+\caption{LSM303 Triple-axis Accelerometer plus Magnetometer (Compass) Board}\label{compass board}
 \end{figure}
 
 For the reason of real-time plotting simplicity, the Comma-separated values(CSV) format which provides the timestamp of action, is adopted. The CSV streaming Arduino code is written at Appendix \ref{appendix-CSV}. The CSV format is: \textbf{timestamp,sensorName,values,...,checksum}.
@@ -72,10 +72,10 @@ When using baud rate as 57600, the update frequency of physical quantities are 3
 \caption{Xbee part with Shield}
 \end{figure}
 Digi XCTU\cite{DigiCite} is the software used to configure the Xbee modules. In our case, two Ardusat Demosat should send the real time data to the computers separately.The two XBee parts are on Ardusat A and Ardusat B The other two Xbee parts are plugged in shields and the shields are connected to Computer A and Computer B respectively. All the Xbee parts should be set carefully\cite{XbeeSetting}. 
-\begin{table}[!h]\label{Xbee-configuration}
+\begin{table}[!h]
 \renewcommand\arraystretch{2}
 	\begin{center}
-	\caption{Xbee parts setting}
+	\caption{Xbee parts setting}\label{Xbee-configuration}
 	\begin{tabular}{|c|c|c|c|c|}
 	\hline
 	\backslashbox{\textbf{Setting}}{\textbf{Xbee part}} & \textbf{A shield} & \textbf{On Ardusat A} & \textbf{B shield} & \textbf{On ArduSat B}\\ \hline
@@ -108,12 +108,12 @@ There are two way to configure destination address
 \end{enumerate}
 To assure that each network has high fidelity and the communication interference between A network and B network is as low as possible, the A network is only using method \ref{method1} and the B network is using method \ref{method2}. A network's configuration obeys method \ref{method1} and disobeys method \ref{method2}. B network's configuration obeys method \ref{method2} and goes against method \ref{method1}.
 
-The key is to reduce communication interference when two satellites are moving especially when they are quite close.The final configuration is showed at Table \ref{xbeenetworkexample}.
+The key is to reduce communication interference when two satellites are moving especially when they are quite close.The final configuration is showed at Table \ref{Xbee-configuration}.
 
-\begin{figure}[ht]\label{xbeenetworkexample}
+\begin{figure}[ht]
 \centering
 \includegraphics[width = 0.5\textwidth]{fig/DOE/Network}
-\caption{Xbee-networks example}
+\caption{Xbee-networks example}\label{xbeenetworkexample}
 \end{figure}
 
 \subsection{Real-time data streaming to MATLAB via USB}
@@ -151,7 +151,7 @@ The first version of Air Bushing Planar Torque Free Motion simulator(Hong Kong i
 However, the Air Bushing Torque Free Motion simulator has a fatal problem. As the weight of top floor air bushings and top floor rods are bear by the bottom floor air bushings and rods, the mass of inertia along two axes are different. If two forces with same magnitude exerted on the same point of action along two vertical axes, the top floor air bushings will generate much bigger acceleration than the bottom floor air bushings since the motion along that way is much easier.
 
 
-\begin{figure}[H]\label{DOE-force}
+\begin{figure}[H]
 \centering
 \begin{minipage}[t]{0.48\textwidth}
 \centering
@@ -161,7 +161,7 @@ However, the Air Bushing Torque Free Motion simulator has a fatal problem. As th
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \includegraphics[width = 6cm]{fig/DOE/ForwardForce}
-\caption{Exerted force Front View}
+\caption{Exerted force Front View}\label{DOE-force}
 \end{minipage}
 \end{figure}
 
