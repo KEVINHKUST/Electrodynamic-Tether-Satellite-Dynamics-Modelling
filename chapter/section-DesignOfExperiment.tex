@@ -1,7 +1,7 @@
 \chapter{Experiment Design}\label{sec-DOE}
 This chapter talks about the Experiment set up.
 \section{ArduSat}
-The HKUST CYT Lab has a lot of ArduSat DemosSats\cite{geeroms2015ardusat,peters2016ardusat}. ArduSat is an Arduino based Nanosatellite, based on the CubeSat standard. It contains a set of Arduino boards and sensors. The general public will be allowed to use these Arduinos and sensors for their own creative purposes while they are in space. 
+The HKUST CYT Lab has a lot of ArduSat DemosSats~\cite{geeroms2015ardusat,peters2016ardusat}. ArduSat is an Arduino based Nanosatellite, based on the CubeSat standard. It contains a set of Arduino boards and sensors. The general public will be allowed to use these Arduinos and sensors for their own creative purposes while they are in space. 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=6cm]{fig/DOE/Demosat}
@@ -20,7 +20,7 @@ The DemoSat is designed to the CubeSat One Unit (1U) standard. The 3D printed fr
 Also the DemoSat includes two wireless radio frequency (RF) radios. They are Digi XBee 2.4Ghz modules. One is connected inside the DemoSat and the second is connect via USB to laptop. By doing this it enables the DemoSatellite to communicate up to 1500 meter from the computer.
 It can get our interested acceleration, angular rate and orientation of the Satellites at real time wirelessly.
 \subsection{Arduino Data Acquisition}
-Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK\cite{ardusatsdk}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board (Figure \ref{compass board}).
+Our interested physical quantities are acceleration, angular rate and Orientation. By using the ArdusatSDK~\cite{ardusatsdk}, acceleration can be read from Sensor LSM303 triple-axis accelerometer and Angular rates can be read from Sensor L3GD20 three-axis gyroscope. The orientation i.e. roll, pitch and heading, can be derived from readings from the Acceleration and Magnetic Sensors LSM303-Triple-axis Accelerometer plus Magnetometer (Compass) Board (Figure \ref{compass board}).
 
 \begin{figure}[!b]
 \centering
@@ -62,8 +62,8 @@ For example, one of the result is like this(during around 100ms):
 \end{quote}
 
 The time-stamp is the time value from which the program was operated, in millisecond. The last number is checksum which used for check the communication.
-The baud rate is set as 5700 as softwareSerial does not appear to work reliably above 57600 baud.\cite{ardusatsdk}
-When using baud rate as 57600, the update frequency of physical quantities are 32Hz, which means every second we can get 32 groups of acceleration, angular rate and orientation. The unit of baud rate is bits per second.i.e. 57600 bits per second equals 7.2KB/s\cite{dong1994device}.
+The baud rate is set as 5700 as softwareSerial does not appear to work reliably above 57600 baud~\cite{ardusatsdk}.
+When using baud rate as 57600, the update frequency of physical quantities are 32Hz, which means every second we can get 32 groups of acceleration, angular rate and orientation. The unit of baud rate is bits per second.i.e. 57600 bits per second equals 7.2KB/s~\cite{dong1994device}.
 
 \subsection{Xbee modules configuration}
 \begin{figure}[!h]
@@ -71,7 +71,7 @@ When using baud rate as 57600, the update frequency of physical quantities are 3
 \includegraphics{fig/DOE/XbeeShield}
 \caption{Xbee part with Shield}
 \end{figure}
-Digi XCTU\cite{DigiCite} is the software used to configure the Xbee modules. In our case, two Ardusat Demosat should send the real time data to the computers separately.The two XBee parts are on Ardusat A and Ardusat B The other two Xbee parts are plugged in shields and the shields are connected to Computer A and Computer B respectively. All the Xbee parts should be set carefully\cite{XbeeSetting}. 
+Digi XCTU~\cite{DigiCite} is the software used to configure the Xbee modules. In our case, two Ardusat Demosat should send the real time data to the computers separately.The two XBee parts are on Ardusat A and Ardusat B The other two Xbee parts are plugged in shields and the shields are connected to Computer A and Computer B respectively. All the Xbee parts should be set carefully~\cite{XbeeSetting}. 
 \begin{table}[!h]
 \renewcommand\arraystretch{2}
 	\begin{center}
@@ -119,7 +119,7 @@ The key is to reduce communication interference when two satellites are moving e
 \subsection{Real-time data streaming to MATLAB via USB}
 Since the Xbee modules can send data wirelessly to the shield module, the Arduino Serial Monitor is able to receive and pop out the streaming txt data. However, Arduino cannot plot the received data at real time and save the data synchronously.
 
-To plot the real-time streaming data and record them we need to use MATLAB\cite{manalo2012usb}. MATLAB serial can create the serial port object. The Xbee shield is connected to computer via USB and using serial port to do data transmission.
+To plot the real-time streaming data and record them we need to use MATLAB~\cite{manalo2012usb}. MATLAB serial can create the serial port object. The Xbee shield is connected to computer via USB and using serial port to do data transmission.
 
 The MATLAB code in Appendix \ref{appendix-realtime} gives the functionality. This MATLAB file reads the serial post, plots the three physical quantities and saves the data into record matrix.       
 

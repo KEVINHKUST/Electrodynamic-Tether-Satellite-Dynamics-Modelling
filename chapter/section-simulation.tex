@@ -1,11 +1,11 @@
 \chapter{Case study and MATLAB simulation implementation}\label{section-case}
-In this chapter, an specific example\cite{hovell2017experimental} of tether satellite system is studied. In this case study, the used dynamic model and Proportional-Differentiation controller are the main analysis focuses. At the end, MATLAB simulation is also implemented.
+In this chapter, an specific example~\cite{hovell2017experimental} of tether satellite system is studied. In this case study, the used dynamic model and Proportional-Differentiation controller are the main analysis focuses. At the end, MATLAB simulation is also implemented.
 
 The tether satellite system consists of two satellite and a tether. The two satellites are named as Target Vehicle and Chaser vehicle which means the task of Chaser vehicle is to capture the target vehicle and to de-rotation of the system. In the real case the target vehicle can be space debris which is moving and rotation around Earth under the gravitational force of the Earth. Space debris not only rotates around the Earth, in fact it will also rotate around its body center if any .De-orbiting can be achieved if the energy and angular momentum of space debris consumed.
 \begin{figure}[ht]
 
 \includegraphics[width=\textwidth]{fig/simulation/ReferenceFrame}
-\caption{Reference frame and vector definition for planar dynamics modeling\cite{hovell2017experimental}}
+\caption{Reference frame and vector definition for planar dynamics modeling~\cite{hovell2017experimental}}
 
 \end{figure}
 When we let our chaser vehicle connect with target vehicle using tether, the consumption of angular momentum becomes faster and the deorbiting gets quicker.  
@@ -98,12 +98,12 @@ The whole system is modeled as a nonlinear stiffness spring-damper system. The d
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \includegraphics[width=6cm]{fig/simulation/Systemmodel}
-\caption{System model\cite{hovell2017experimental}}\label{simu-systemmodel}
+\caption{System model~\cite{hovell2017experimental}}\label{simu-systemmodel}
 \end{minipage}
 \begin{minipage}[t]{0.48\textwidth}
 \centering
 \includegraphics[width=6cm]{fig/simulation/StiffnessStetchRelation}
-\caption{Stiffness stetch relation\cite{hovell2017experimental}}
+\caption{Stiffness stetch relation~\cite{hovell2017experimental}}
 \end{minipage}
 \end{figure}
 
@@ -132,7 +132,7 @@ The whole system is modeled as a nonlinear stiffness spring-damper system. The d
 
 \subsection{Tether length, tether tension and tether torque}
 
-According to Figure\ref{simu-illustration}, changing all the vectors in the Inertial frame then the vector form of tether length can be written as follows:
+According to Figure \ref{simu-illustration}, changing all the vectors in the Inertial frame then the vector form of tether length can be written as follows:
 
 \begin{equation} \overrightarrow{L_S} = -(\overrightarrow{r_c} + A(\theta_c)\overrightarrow{a_c})+(\overrightarrow{r_t} + A(\theta_t)\overrightarrow{a_t})\end{equation}
  
@@ -198,7 +198,7 @@ To archive the goal of deorbiting target satellite, the Chaser vehicle need to r
 \begin{figure}
 \centering
 \includegraphics{fig/simulation/TetherTargetAngle}
-\caption{Positive tether target angle\cite{hovell2017experimental}}
+\caption{Positive tether target angle~\cite{hovell2017experimental}}
 \end{figure}
 The easiest way is to use the proportional-derivative controller for the position and altitude control of the tether.
 The force controller uses the difference between desired chaser radius vector and actual chaser radius vector as the feedback signal. The control force:  
@@ -215,7 +215,7 @@ $K_P,K_{P,\theta},, K_D,K_{D,\theta}$ are the Proportional gain matrix and the D
 \section{MATLAB Implementation}
 In this section, the MATLAB simulation case is implemented. To simplified the study, the implementation case use only one controller. The thrust stabilization only uses force controller. The Tether Satellite System Spin Stabilization only use torque control, commanding the chaser to continually point its $C_x$  axis toward the target. In the real case the controller can be the combination of these two kinds. Here we just implemented the Thrust stabilization of single tether for illustration the problem through the flowchart \ref{simu-flowchart}.
 
-The detail MATLAB code is in the Appendix \ref{appendix-thruststab}. Symbols have the same meaning and constant values are not changed, as\cite{hovell2017experimental}. 
+The detail MATLAB code is in the Appendix \ref{appendix-thruststab}. Symbols have the same meaning and constant values are not changed, as~\cite{hovell2017experimental}. 
 
 \subsection{Thrust stabilization}
 The chaser is designed as uniformly accelerated motion for simplicity. The motion can be replaced by any other arbitrarily defined motion.
